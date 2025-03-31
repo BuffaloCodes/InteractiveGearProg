@@ -4,10 +4,11 @@
  * - `nodegroups`: Stores ordered lists of nodes as defined in sequence.json.
  */
 let itemsData = {};
+const clickSound = new Audio("Picking.wav.mp3");
 let nodegroups = [];
 
 /** Define a cache version to invalidate outdated stored charts */
-const CACHE_VERSION = "1.2.1"; // Update this whenever you make a major update
+const CACHE_VERSION = "1.2.3"; // Update this whenever you make a major update
 
 /**
  * Sanitizes a string to create a safe HTML element ID.
@@ -179,6 +180,10 @@ function initializeNodeStates() {
     chartContainer.addEventListener("click", (event) => {
         let node = event.target.closest(".node");
         if (!node) return;
+        if (clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play();
+        }
         node.classList.toggle("green-background");
         saveNodeState(node); // Save state under shared key
     });

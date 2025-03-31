@@ -833,5 +833,13 @@
     "98 agility": {
         "imgSrc": "images/Agility_icon.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Hallowed_Sepulchre"
+    },
+    "third age pickaxe": {
+        "imgSrc": "images/3rd_age_pickaxe.webp",
+        "wikiLink": "https://en.wikipedia.org/wiki/April_Fools%27_Day"
+    },
+    "Elysian spirit shield": {
+        "imgSrc": "images/Elysian_spirit_shield.webp",
+        "wikiLink": "https://en.wikipedia.org/wiki/April_Fools%27_Day"
     }
 }
