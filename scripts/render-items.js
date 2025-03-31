@@ -8,7 +8,7 @@ const clickSound = new Audio("Picking.wav.mp3");
 let nodegroups = [];
 
 /** Define a cache version to invalidate outdated stored charts */
-const CACHE_VERSION = "1.2.3"; // Update this whenever you make a major update
+const CACHE_VERSION = "1.2.5"; // Update this whenever you make a major update
 
 /**
  * Sanitizes a string to create a safe HTML element ID.
