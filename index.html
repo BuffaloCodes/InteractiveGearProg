@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pierce's Chart</title>
 
-  <!-- your existing assets -->
+  <!-- optional original assets, safe to keep even if missing -->
   <link rel="stylesheet" href="styles/styles.css" />
   <link rel="stylesheet" href="styles/right-clicks.css" />
   <script src="scripts/right-clicks.js"></script>
   <script src="scripts/version.js" defer></script>
   <script data-goatcounter="https://ladlor0interactive0prog.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
-  <!-- minimal styles for tabs only -->
   <style>
     .topbar { position: sticky; top: 0; z-index: 20; background: rgba(0,0,0,.5); backdrop-filter: blur(6px); padding: .5rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
     .tabs { display: inline-flex; gap: .5rem; }
@@ -23,15 +22,12 @@
     .wrap { max-width: 1080px; margin: 0 auto; padding: .5rem .75rem 2rem; }
     .panel { display: none; }
     .panel.active { display: block; }
-
     .subtitle { display: block; margin-bottom: .5rem; }
-
-    /* optional header style for grouped milestones */
     .milestone-header { margin-top: 1.25rem; margin-bottom: .5rem; font-size: 1.25rem; border-bottom: 1px solid rgba(255,255,255,.2); padding-bottom: .25rem; }
+    .error { background: rgba(220,53,69,.15); border: 1px solid rgba(220,53,69,.35); padding: .75rem; border-radius: .5rem; margin: .75rem 0; }
   </style>
 </head>
 <body>
-  <!-- top tabs -->
   <div class="topbar">
     <div class="tabs">
       <button class="tab_btn" id="btn_milestones">Milestones</button>
@@ -40,56 +36,190 @@
   </div>
 
   <div class="wrap">
-    <!-- Milestones -->
     <section id="panel_milestones" class="panel">
       <h1>Interactive Ironman Progression Chart</h1>
-      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community — made by BuffaloDad</span>
+      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community made by BuffaloDad</span>
       <div id="chart_milestones" class="chart"></div>
-
-      <h2>Acknowledgements</h2>
-      <p>
-        A special thank you to the <a href="https://discord.gg/ironscape" target="_blank">Ironscape Discord
-          Community</a> for their support and contributions in refining the sequencing of milestones.
-      </p>
     </section>
 
-    <!-- Gear -->
     <section id="panel_gear" class="panel">
       <h1>Interactive Ironman Progression Chart</h1>
-      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community — made by BuffaloDad</span>
+      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community made by BuffaloDad</span>
       <div id="chart_gear" class="chart"></div>
-
-      <h2>Acknowledgements</h2>
-      <p>
-        A special thank you to the <a href="https://discord.gg/ironscape" target="_blank">Ironscape Discord
-          Community</a> for their support and contributions in refining the sequencing of milestones.
-      </p>
     </section>
 
     <h2>Frequently Asked Questions</h2>
     <div class="faq-section">
-      <p><strong>Q:</strong> What item is this?</p>
+      <p><strong>Q:</strong> What item is this</p>
       <p><strong>A:</strong> You can right click the item to see its name and wiki link.</p>
-      <p><strong>Q:</strong> How is my progress saved?</p>
+      <p><strong>Q:</strong> How is my progress saved</p>
       <p><strong>A:</strong> Your progress is saved in local storage in your browser.</p>
-      <p><strong>Q:</strong> Does a pvm focused version exist?</p>
-      <p><strong>A:</strong> Yes. A bare bones version can be found <a href="pages/bare-bones.html">here</a>.</p>
-      <p>For more questions, visit the <a href="pages/faq.html">full FAQ page</a>.</p>
     </div>
-
-    <footer>
-      <p><span id="version"></span> | <a href="pages/changelog.html">View Changelog</a> | <a href="pages/privacy.html">Privacy Policy</a> | <a href="https://github.com/Madssb/InteractiveGearProg">Source Code</a></p>
-      <p>
-        All images used in this tool are sourced from the
-        <a href="https://oldschool.runescape.wiki/" target="_blank">Old School RuneScape Wiki</a>, and are licensed under the
-        <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons Attribution NonCommercial ShareAlike 3.0 License</a>.
-        © 2013 to 2024 Jagex Ltd. All rights reserved.
-      </p>
-    </footer>
   </div>
 
-  <!-- renderer and app logic -->
-  <script src="scripts/render.js"></script>
-  <script src="scripts/app.js"></script>
+  <script>
+    // paths to your data
+    const PATH_ITEMS = 'data/items.json';
+    const PATH_SEQ_GEAR = 'data/sequence_gear.json';
+    const PATH_SEQ_MILE = 'data/sequence_milestones.json';
+
+    const SAVE_KEY = 'sharedNodeStatesV1';
+    const ACTIVE_TAB_KEY = 'igp_active_tab';
+
+    function setActiveTab(name) {
+      const panels = { milestones: document.getElementById('panel_milestones'), gear: document.getElementById('panel_gear') };
+      const buttons = { milestones: document.getElementById('btn_milestones'), gear: document.getElementById('btn_gear') };
+      Object.values(panels).forEach(p => p.classList.remove('active'));
+      Object.values(buttons).forEach(b => b.classList.remove('active'));
+      panels[name].classList.add('active');
+      buttons[name].classList.add('active');
+      try { localStorage.setItem(ACTIVE_TAB_KEY, name); } catch(e) {}
+    }
+    function getDefaultTab() {
+      try {
+        const s = localStorage.getItem(ACTIVE_TAB_KEY);
+        if (s === 'milestones' || s === 'gear') return s;
+      } catch(e) {}
+      return 'gear';
+    }
+
+    function sanitizeId(name) { return String(name).replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase(); }
+    function isSkillToken(s) { const f = String(s).charAt(0); return !isNaN(f); }
+
+    function loadSavedStates() { try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch(e) { return {}; } }
+    function saveStates(map) { try { localStorage.setItem(SAVE_KEY, JSON.stringify(map)); } catch(e) {} }
+
+    function applyStateAndEvents(container, saved) {
+      const nodes = container.querySelectorAll('.node');
+      nodes.forEach(node => {
+        const id = node.id;
+        const st = saved[id] || 0;
+        node.dataset.state = st;
+        node.classList.remove('state-0','state-1','state-2');
+        node.classList.add(`state-${st}`);
+      });
+      container.addEventListener('click', ev => {
+        const node = ev.target.closest('.node');
+        if (!node) return;
+        const cur = parseInt(node.dataset.state) || 0;
+        const next = cur === 1 ? 0 : 1;
+        node.dataset.state = next;
+        node.classList.remove('state-0','state-1','state-2');
+        node.classList.add(`state-${next}`);
+        const savedNow = loadSavedStates();
+        savedNow[node.id] = next;
+        saveStates(savedNow);
+      });
+      container.addEventListener('dragstart', ev => { if (ev.target.tagName === 'IMG') ev.preventDefault(); });
+    }
+
+    function buildHeader(text) {
+      const h = document.createElement('h2');
+      h.textContent = text;
+      h.className = 'milestone-header';
+      return h;
+    }
+    function buildItemNode(name, itemData, basePath) {
+      const div = document.createElement('div');
+      div.className = 'node';
+      div.id = sanitizeId(name);
+      div.title = name;
+      const data = itemData[name];
+      if (!data) { div.textContent = name; return div; }
+      const img = document.createElement('img');
+      img.src = basePath + data.imgSrc;
+      img.alt = name;
+      div.appendChild(img);
+      if (data.wikiLink) div.dataset.wikiLink = data.wikiLink;
+      return div;
+    }
+    function buildSkillNode(token, basePath) {
+      const parts = token.split(' ');
+      const lvl = parts[0];
+      const skillName = parts.slice(1).join(' ');
+      const pretty = skillName.charAt(0).toUpperCase() + skillName.slice(1);
+      const node = document.createElement('div');
+      node.className = 'node';
+      node.id = 'lvl-' + sanitizeId(token);
+      node.title = `Get ${lvl} ${skillName}`;
+      const wrap = document.createElement('div');
+      wrap.className = 'skill';
+      const img = document.createElement('img');
+      img.src = `images/${pretty}_icon.webp`;
+      const span = document.createElement('span');
+      span.textContent = lvl;
+      wrap.appendChild(img); wrap.appendChild(span);
+      node.appendChild(wrap);
+      return node;
+    }
+
+    function normalizeSequence(seqJson) {
+      if (seqJson && Array.isArray(seqJson.groups)) {
+        return seqJson.groups.map(g => {
+          const col = [{ __header: g.name }];
+          if (Array.isArray(g.items)) col.push(...g.items);
+          return col;
+        });
+      }
+      if (Array.isArray(seqJson)) return [seqJson];
+      if (seqJson && typeof seqJson === 'object') return Object.values(seqJson).map(v => Array.isArray(v) ? v : []);
+      return [[]];
+    }
+
+    async function renderChartInto(containerId, itemsPath, sequencePath) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+
+      try {
+        const [itemsJson, seqJson] = await Promise.all([
+          fetch(itemsPath).then(r => r.json()),
+          fetch(sequencePath).then(r => r.json())
+        ]);
+
+        const groups = normalizeSequence(seqJson);
+        groups.forEach((col, idx) => {
+          const colDiv = document.createElement('div');
+          colDiv.className = 'node-group';
+          col.forEach(entry => {
+            if (entry && typeof entry === 'object' && entry.__header) {
+              colDiv.appendChild(buildHeader(entry.__header));
+              return;
+            }
+            const node = isSkillToken(entry) ? buildSkillNode(entry) : buildItemNode(entry, itemsJson, '');
+            colDiv.appendChild(node);
+          });
+          container.appendChild(colDiv);
+          if (idx !== groups.length - 1) {
+            const arrowDiv = document.createElement('div');
+            arrowDiv.className = 'arrow';
+            arrowDiv.textContent = '→';
+            container.appendChild(arrowDiv);
+          }
+        });
+
+        applyStateAndEvents(container, loadSavedStates());
+      } catch (err) {
+        const msg = document.createElement('div');
+        msg.className = 'error';
+        msg.textContent = 'Failed to load data. Confirm data/items.json and the two sequence files exist at those paths.';
+        container.appendChild(msg);
+        console.error(err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // render both once
+      await renderChartInto('chart_gear', PATH_ITEMS, PATH_SEQ_GEAR);
+      await renderChartInto('chart_milestones', PATH_ITEMS, PATH_SEQ_MILE);
+
+      // tab buttons
+      document.getElementById('btn_milestones').addEventListener('click', () => setActiveTab('milestones'));
+      document.getElementById('btn_gear').addEventListener('click', () => setActiveTab('gear'));
+
+      // show default tab
+      setActiveTab(getDefaultTab());
+    });
+  </script>
 </body>
 </html>
