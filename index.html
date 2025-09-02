@@ -146,6 +146,58 @@
 #chart_gear .node:not(.obtained), #chart_milestones .node:not(.obtained) {
   filter: saturate(0.92);
 }
+/* === Ladlor-style palette (adjust here if you want exact hexes) === */
+:root {
+  --tile-bg: #2b2f36;            /* neutral slate gray */
+  --tile-border: rgba(255,255,255,.08);
+  --tile-hover-border: rgba(255,255,255,.18);
+  --tile-shadow: 0 1px 2px rgba(0,0,0,.25);
+
+  --obtained-bg: #2f8f46;        /* saturated green seen in Ladlor UI */
+  --obtained-border: rgba(0,0,0,.15);
+  --obtained-inset: inset 0 0 0 1px rgba(255,255,255,.12);
+
+  --context-bg: rgba(20,20,22,0.98);
+  --context-title-bg: rgba(255,255,255,.05);
+}
+
+/* --- Tile look & feel (applies to both tabs) --- */
+#chart_gear .node, #chart_milestones .node {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 64px !important;
+  height: 64px !important;
+  box-sizing: border-box !important;
+  border-radius: 10px !important;
+  background: var(--tile-bg) !important;
+  border: 1px solid var(--tile-border) !important;
+  box-shadow: var(--tile-shadow) !important;
+  transition: background .12s ease, transform .05s ease, border-color .12s ease, box-shadow .12s ease;
+}
+#chart_gear .node:hover, #chart_milestones .node:hover {
+  border-color: var(--tile-hover-border) !important;
+  transform: translateY(-1px);
+}
+
+/* image sizing */
+#chart_gear .node img, #chart_milestones .node img {
+  width: 48px !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* obtained = green fill */
+#chart_gear .node.obtained, #chart_milestones .node.obtained {
+  background: var(--obtained-bg) !important;
+  border-color: var(--obtained-border) !important;
+  box-shadow: var(--obtained-inset), 0 1px 2px rgba(0,0,0,.3) !important;
+}
+#chart_gear .node.obtained:hover, #chart_milestones .node.obtained:hover {
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 2px 6px rgba(0,0,0,.35) !important;
+}
+
+/* keep the no-overlap layout resets you added earlier */
 
   </style>
 </head>
