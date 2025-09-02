@@ -11,6 +11,7 @@
   <script src="scripts/right-clicks.js"></script>
   <script src="scripts/version.js" defer></script>
   <script data-goatcounter="https://ladlor0interactive0prog.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="icon" href="data:,"><!-- silence favicon 404 -->
 
   <!-- minimal tab and layout helpers -->
   <style>
@@ -27,82 +28,78 @@
     .milestone-header { margin-top: 1.25rem; margin-bottom: .5rem; font-size: 1.25rem; border-bottom: 1px solid rgba(255,255,255,.2); padding-bottom: .25rem; }
     .error { background: rgba(220,53,69,.15); border: 1px solid rgba(220,53,69,.35); padding: .75rem; border-radius: .5rem; margin: .75rem 0; }
 
-    /* layout to prevent overlap */
-    .chart { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
-    .node-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
-    .node { display: inline-block; position: relative; box-sizing: border-box; }
-    .node img { display: block; max-width: 48px; height: auto; }
-    .node .skill { display: inline-flex; align-items: center; gap: 6px; }
-    /* ==== Hard reset for tab charts only ==== */
-#chart_gear, #chart_milestones {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: flex-start !important;
-  gap: 12px !important;
-  position: relative !important;
-  clear: both !important;
-}
+    /* ==== Hard reset for tab charts only (prevents overlap/absolute/float issues) ==== */
+    #chart_gear, #chart_milestones {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+      position: relative !important;
+      clear: both !important;
+    }
+    #chart_gear *, #chart_milestones * { float: none !important; }
 
-/* kill any legacy absolute/float rules under the charts */
-#chart_gear *, #chart_milestones * {
-  float: none !important;
-}
+    /* columns */
+    #chart_gear .node-group, #chart_milestones .node-group {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+      position: static !important;
+    }
 
-/* columns */
-#chart_gear .node-group, #chart_milestones .node-group {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: flex-start !important;
-  gap: 12px !important;
-  position: static !important;
-}
+    /* item tiles */
+    #chart_gear .node, #chart_milestones .node {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 52px !important;
+      height: 52px !important;
+      box-sizing: border-box !important;
+      position: static !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      background: transparent !important;
+    }
 
-/* item tiles */
-#chart_gear .node, #chart_milestones .node {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 52px !important;
-  height: 52px !important;
-  box-sizing: border-box !important;
-  position: static !important;   /* cancel absolute */
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-}
+    /* icons */
+    #chart_gear .node img, #chart_milestones .node img {
+      display: block !important;
+      width: 48px !important;
+      height: auto !important;
+      max-width: none !important;
+    }
 
-/* icons */
-#chart_gear .node img, #chart_milestones .node img {
-  display: block !important;
-  width: 48px !important;
-  height: auto !important;
-  max-width: none !important;
-}
+    /* skill tokens */
+    #chart_gear .node .skill, #chart_milestones .node .skill {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
 
-/* skill token badge layout */
-#chart_gear .node .skill, #chart_milestones .node .skill {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-}
+    /* headers between groups */
+    #chart_gear .milestone-header, #chart_milestones .milestone-header {
+      width: 100% !important;
+      margin-top: 16px !important;
+      margin-bottom: 6px !important;
+      font-size: 1.1rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.2) !important;
+      padding-bottom: 4px !important;
+    }
 
-/* headers between groups */
-#chart_gear .milestone-header, #chart_milestones .milestone-header {
-  width: 100% !important;
-  margin-top: 16px !important;
-  margin-bottom: 6px !important;
-  font-size: 1.1rem !important;
-  border-bottom: 1px solid rgba(255,255,255,.2) !important;
-  padding-bottom: 4px !important;
-}
+    /* arrows between columns (optional) */
+    #chart_gear .arrow, #chart_milestones .arrow {
+      align-self: center !important;
+      font-weight: 700 !important;
+    }
 
-/* the little arrows between columns (optional) */
-#chart_gear .arrow, #chart_milestones .arrow {
-  align-self: center !important;
-  font-weight: 700 !important;
-}
-
+    /* fallback style if your theme doesn’t style .obtained */
+    #chart_gear .node.obtained, #chart_milestones .node.obtained {
+      outline: 2px solid #48c774;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
@@ -174,7 +171,7 @@
     }
     function sanitizeId(name) { return String(name).replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase(); }
 
-    // prefer item icons if present, only treat as skill when no item entry
+    // Prefer item icons if present, only treat as skill when no item entry
     function isSkillToken(s, itemsMap) {
       return (typeof s === 'string') && !itemsMap[s] && /^\d+\s/.test(s);
     }
@@ -209,7 +206,7 @@
       const data = itemData[name];
       if (!data || !data.imgSrc) {
         console.warn('No item data for', name);
-        return null; // skip unknowns to avoid text overlap
+        return null; // skip unknowns to avoid layout issues
       }
       const div = document.createElement('div');
       div.className = 'node';
@@ -235,7 +232,9 @@
         node.dataset.state = st;
         node.classList.remove('state-0','state-1','state-2');
         node.classList.add(`state-${st}`);
+        node.classList.toggle('obtained', st === 1); // <- restore classic styling hook
       });
+
       container.addEventListener('click', ev => {
         const node = ev.target.closest('.node');
         if (!node) return;
@@ -244,11 +243,16 @@
         node.dataset.state = next;
         node.classList.remove('state-0','state-1','state-2');
         node.classList.add(`state-${next}`);
+        node.classList.toggle('obtained', next === 1);
+
         const savedNow = loadSavedStates();
         savedNow[node.id] = next;
         saveStates(savedNow);
       });
-      container.addEventListener('dragstart', ev => { if (ev.target.tagName === 'IMG') ev.preventDefault(); });
+
+      container.addEventListener('dragstart', ev => {
+        if (ev.target.tagName === 'IMG') ev.preventDefault();
+      });
     }
 
     function buildHeader(text) {
@@ -258,6 +262,7 @@
       return h;
     }
     function normalizeSequence(seqJson) {
+      // 1) Grouped milestones: { groups: [ { name, items: [...] }, ... ] }
       if (seqJson && Array.isArray(seqJson.groups)) {
         return seqJson.groups.map(g => {
           const col = [{ __header: g.name }];
@@ -265,7 +270,9 @@
           return col;
         });
       }
+      // 2) Flat array -> single column
       if (Array.isArray(seqJson)) return [seqJson];
+      // 3) Object of arrays -> multiple columns
       if (seqJson && typeof seqJson === 'object') return Object.values(seqJson).map(v => Array.isArray(v) ? v : []);
       return [[]];
     }
@@ -284,52 +291,38 @@
         const groups = normalizeSequence(seqJson);
         let missingCount = 0;
 
-// helper that renders a single string entry
-function renderOne(entry, targetColDiv) {
-  // choose best renderer
-  let node = buildItemNode(entry, itemsJson);
-  if (!node && isSkillToken(entry, itemsJson)) {
-    node = buildSkillNode(entry);
-  }
-  if (node) {
-    targetColDiv.appendChild(node);
-  } else {
-    missingCount++;
-    console.warn('Skipping unknown entry:', entry);
-  }
-}
+        // helper: render a single string entry
+        function renderOne(entry, targetColDiv) {
+          let node = buildItemNode(entry, itemsJson);
+          if (!node && isSkillToken(entry, itemsJson)) {
+            node = buildSkillNode(entry);
+          }
+          if (node) {
+            targetColDiv.appendChild(node);
+          } else {
+            missingCount++;
+            console.warn('Skipping unknown entry:', entry);
+          }
+        }
 
-groups.forEach((col, idx) => {
-  const colDiv = document.createElement('div');
-  colDiv.className = 'node-group';
+        groups.forEach((col, idx) => {
+          const colDiv = document.createElement('div');
+          colDiv.className = 'node-group';
 
-  col.forEach(entry => {
-    // group header marker
-    if (entry && typeof entry === 'object' && entry.__header) {
-      colDiv.appendChild(buildHeader(entry.__header));
-      return;
-    }
-
-    // NEW: handle nested arrays inside a column
-    if (Array.isArray(entry)) {
-      entry.forEach(sub => renderOne(sub, colDiv));
-      return;
-    }
-
-    // normal string item/skill
-    renderOne(entry, colDiv);
-  });
-
-  container.appendChild(colDiv);
-
-  if (idx !== groups.length - 1) {
-    const arrowDiv = document.createElement('div');
-    arrowDiv.className = 'arrow';
-    arrowDiv.textContent = '→';
-    container.appendChild(arrowDiv);
-  }
-});
-
+          col.forEach(entry => {
+            // group header marker
+            if (entry && typeof entry === 'object' && entry.__header) {
+              colDiv.appendChild(buildHeader(entry.__header));
+              return;
+            }
+            // nested arrays inside a column (flatten and render)
+            if (Array.isArray(entry)) {
+              entry.forEach(sub => renderOne(sub, colDiv));
+              return;
+            }
+            // normal string item/skill
+            renderOne(entry, colDiv);
+          });
 
           container.appendChild(colDiv);
 
@@ -351,43 +344,15 @@ groups.forEach((col, idx) => {
           container.prepend(warn);
         }
 
-function applyStateAndEvents(container, saved) {
-  const nodes = container.querySelectorAll('.node');
-  nodes.forEach(node => {
-    const id = node.id;
-    const st = saved[id] || 0;
-    node.dataset.state = st;
-
-    // classes for our simple styling
-    node.classList.remove('state-0','state-1','state-2');
-    node.classList.add(`state-${st}`);
-
-    // ALSO add/remove the classic class many stylesheets expect
-    node.classList.toggle('obtained', st === 1);
-  });
-
-  container.addEventListener('click', ev => {
-    const node = ev.target.closest('.node');
-    if (!node) return;
-
-    const cur = parseInt(node.dataset.state) || 0;
-    const next = cur === 1 ? 0 : 1;
-    node.dataset.state = next;
-
-    node.classList.remove('state-0','state-1','state-2');
-    node.classList.add(`state-${next}`);
-    node.classList.toggle('obtained', next === 1);
-
-    const savedNow = loadSavedStates();
-    savedNow[node.id] = next;
-    saveStates(savedNow);
-  });
-
-  container.addEventListener('dragstart', ev => {
-    if (ev.target.tagName === 'IMG') ev.preventDefault();
-  });
-}
-
+        applyStateAndEvents(container, loadSavedStates());
+      } catch (err) {
+        const msg = document.createElement('div');
+        msg.className = 'error';
+        msg.textContent = 'Failed to load data. Confirm data/items.json and both sequence files exist at those paths.';
+        container.appendChild(msg);
+        console.error(err);
+      }
+    }
 
     document.addEventListener('DOMContentLoaded', async () => {
       // render both once
