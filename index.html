@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pierce's Chart</title>
 
-  <!-- optional original assets, safe to keep even if missing -->
+  <!-- keep your existing site assets -->
   <link rel="stylesheet" href="styles/styles.css" />
   <link rel="stylesheet" href="styles/right-clicks.css" />
   <script src="scripts/right-clicks.js"></script>
   <script src="scripts/version.js" defer></script>
   <script data-goatcounter="https://ladlor0interactive0prog.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
+  <!-- minimal tab + layout styles (safe even if duplicated in styles.css) -->
   <style>
     .topbar { position: sticky; top: 0; z-index: 20; background: rgba(0,0,0,.5); backdrop-filter: blur(6px); padding: .5rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
     .tabs { display: inline-flex; gap: .5rem; }
@@ -25,28 +26,13 @@
     .subtitle { display: block; margin-bottom: .5rem; }
     .milestone-header { margin-top: 1.25rem; margin-bottom: .5rem; font-size: 1.25rem; border-bottom: 1px solid rgba(255,255,255,.2); padding-bottom: .25rem; }
     .error { background: rgba(220,53,69,.15); border: 1px solid rgba(220,53,69,.35); padding: .75rem; border-radius: .5rem; margin: .75rem 0; }
-    /* layout for the chart columns and nodes */
-.chart { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
 
-.node-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
-
-/* each item tile */
-.node {
-  display: inline-block;
-  position: relative;
-  box-sizing: border-box;
-}
-
-/* icons should not overflow */
-.node img {
-  display: block;
-  max-width: 48px;
-  height: auto;
-}
-
-/* optional: the little level badge layout */
-.node .skill { display: inline-flex; align-items: center; gap: 6px; }
-
+    /* layout to prevent overlap */
+    .chart { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+    .node-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+    .node { display: inline-block; position: relative; box-sizing: border-box; }
+    .node img { display: block; max-width: 48px; height: auto; }
+    .node .skill { display: inline-flex; align-items: center; gap: 6px; }
   </style>
 </head>
 <body>
@@ -58,25 +44,37 @@
   </div>
 
   <div class="wrap">
+    <!-- Milestones -->
     <section id="panel_milestones" class="panel">
       <h1>Interactive Ironman Progression Chart</h1>
-      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community made by BuffaloDad</span>
+      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community — made by BuffaloDad</span>
       <div id="chart_milestones" class="chart"></div>
     </section>
 
+    <!-- Gear -->
     <section id="panel_gear" class="panel">
       <h1>Interactive Ironman Progression Chart</h1>
-      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community made by BuffaloDad</span>
+      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community — made by BuffaloDad</span>
       <div id="chart_gear" class="chart"></div>
     </section>
 
     <h2>Frequently Asked Questions</h2>
     <div class="faq-section">
-      <p><strong>Q:</strong> What item is this</p>
+      <p><strong>Q:</strong> What item is this?</p>
       <p><strong>A:</strong> You can right click the item to see its name and wiki link.</p>
-      <p><strong>Q:</strong> How is my progress saved</p>
+      <p><strong>Q:</strong> How is my progress saved?</p>
       <p><strong>A:</strong> Your progress is saved in local storage in your browser.</p>
     </div>
+
+    <footer>
+      <p><span id="version"></span> | <a href="pages/changelog.html">View Changelog</a> | <a href="pages/privacy.html">Privacy Policy</a> | <a href="https://github.com/Madssb/InteractiveGearProg">Source Code</a></p>
+      <p>
+        All images used in this tool are sourced from the
+        <a href="https://oldschool.runescape.wiki/" target="_blank">Old School RuneScape Wiki</a>, and are licensed under the
+        <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons Attribution NonCommercial ShareAlike 3.0 License</a>.
+        © 2013 to 2024 Jagex Ltd. All rights reserved.
+      </p>
+    </footer>
   </div>
 
   <script>
@@ -106,7 +104,37 @@
     }
 
     function sanitizeId(name) { return String(name).replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase(); }
-    function isSkillToken(s) { const f = String(s).charAt(0); return !isNaN(f); }
+
+    // Step 2: safer skill detection and builder (prevents token.split error)
+    function isSkillToken(s) {
+      // must be a string starting with digits and a space, e.g., "70 Agility"
+      return (typeof s === 'string') && /^\d+\s/.test(s);
+    }
+    function buildSkillNode(token) {
+      if (typeof token !== 'string') return document.createComment('skip non-string skill token');
+      const parts = token.split(' ');
+      const lvl = parts[0];
+      const skillName = parts.slice(1).join(' ');
+      const pretty = skillName.charAt(0).toUpperCase() + skillName.slice(1);
+
+      const node = document.createElement('div');
+      node.className = 'node';
+      node.id = 'lvl-' + sanitizeId(token);
+      node.title = `Get ${lvl} ${skillName}`;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'skill';
+
+      const img = document.createElement('img');
+      img.src = `images/${pretty}_icon.webp`;
+
+      const span = document.createElement('span');
+      span.textContent = lvl;
+
+      wrap.appendChild(img); wrap.appendChild(span);
+      node.appendChild(wrap);
+      return node;
+    }
 
     function loadSavedStates() { try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch(e) { return {}; } }
     function saveStates(map) { try { localStorage.setItem(SAVE_KEY, JSON.stringify(map)); } catch(e) {} }
@@ -141,7 +169,7 @@
       h.className = 'milestone-header';
       return h;
     }
-    function buildItemNode(name, itemData, basePath) {
+    function buildItemNode(name, itemData) {
       const div = document.createElement('div');
       div.className = 'node';
       div.id = sanitizeId(name);
@@ -149,30 +177,11 @@
       const data = itemData[name];
       if (!data) { div.textContent = name; return div; }
       const img = document.createElement('img');
-      img.src = basePath + data.imgSrc;
+      img.src = data.imgSrc; // use your paths exactly as listed in items.json
       img.alt = name;
       div.appendChild(img);
       if (data.wikiLink) div.dataset.wikiLink = data.wikiLink;
       return div;
-    }
-    function buildSkillNode(token, basePath) {
-      const parts = token.split(' ');
-      const lvl = parts[0];
-      const skillName = parts.slice(1).join(' ');
-      const pretty = skillName.charAt(0).toUpperCase() + skillName.slice(1);
-      const node = document.createElement('div');
-      node.className = 'node';
-      node.id = 'lvl-' + sanitizeId(token);
-      node.title = `Get ${lvl} ${skillName}`;
-      const wrap = document.createElement('div');
-      wrap.className = 'skill';
-      const img = document.createElement('img');
-      img.src = `images/${pretty}_icon.webp`;
-      const span = document.createElement('span');
-      span.textContent = lvl;
-      wrap.appendChild(img); wrap.appendChild(span);
-      node.appendChild(wrap);
-      return node;
     }
 
     function normalizeSequence(seqJson) {
@@ -208,7 +217,7 @@
               colDiv.appendChild(buildHeader(entry.__header));
               return;
             }
-            const node = isSkillToken(entry) ? buildSkillNode(entry) : buildItemNode(entry, itemsJson, '');
+            const node = isSkillToken(entry) ? buildSkillNode(entry) : buildItemNode(entry, itemsJson);
             colDiv.appendChild(node);
           });
           container.appendChild(colDiv);
