@@ -1,66 +1,143 @@
-:root {
-    --title-bg: #000000;
-    --menu-bg: #5D5447;
-    --text-left-hover: #FFFF00;
-    --text-left: #FFFFFF;
-    --text-right: #FF9040;
+// scripts/right-clicks.js
+(function () {
+  // Create a lightweight context menu
+  function ensureMenu() {
+    let menu = document.getElementById('igp-context');
+    if (menu) return menu;
+
+    menu = document.createElement('div');
+    menu.id = 'igp-context';
+    menu.style.position = 'fixed';
+    menu.style.minWidth = '220px';
+    menu.style.maxWidth = '280px';
+    menu.style.background = 'rgba(24,24,24,0.98)';
+    menu.style.color = '#fff';
+    menu.style.border = '1px solid rgba(255,255,255,.12)';
+    menu.style.borderRadius = '8px';
+    menu.style.boxShadow = '0 8px 24px rgba(0,0,0,.35)';
+    menu.style.padding = '6px';
+    menu.style.fontFamily = 'inherit';
+    menu.style.fontSize = '14px';
+    menu.style.lineHeight = '1.25';
+    menu.style.zIndex = '10000';
+    menu.style.backdropFilter = 'blur(6px)';
+    menu.style.display = 'none';
+
+    // title row
+    const title = document.createElement('div');
+    title.id = 'igp-context-title';
+    title.style.fontWeight = '700';
+    title.style.padding = '8px 10px';
+    title.style.borderRadius = '6px';
+    title.style.marginBottom = '4px';
+    title.style.background = 'rgba(255,255,255,.06)';
+    menu.appendChild(title);
+
+    // action: go to wiki
+    const wiki = document.createElement('a');
+    wiki.id = 'igp-context-wiki';
+    wiki.href = '#';
+    wiki.target = '_blank';
+    wiki.rel = 'noopener';
+    wiki.textContent = 'Go to Wiki';
+    wiki.style.display = 'block';
+    wiki.style.textDecoration = 'none';
+    wiki.style.color = 'inherit';
+    wiki.style.padding = '8px 10px';
+    wiki.style.borderRadius = '6px';
+    wiki.style.cursor = 'pointer';
+    wiki.addEventListener('mouseover', () => wiki.style.background = 'rgba(255,255,255,.08)');
+    wiki.addEventListener('mouseout',  () => wiki.style.background = 'transparent');
+    menu.appendChild(wiki);
+
+    document.body.appendChild(menu);
+    return menu;
+  }
+
+  function getChartRoot() {
+    return (
+      document.getElementById('chart-container') || // legacy single-chart pages
+      document.getElementById('chart_gear') ||
+      document.getElementById('chart_milestones')
+    );
+  }
+
+  function closeMenu() {
+    const menu = document.getElementById('igp-context');
+    if (menu) menu.style.display = 'none';
+  }
+
+  function placeMenu(menu, x, y) {
+    const pad = 8;
+    const w = menu.offsetWidth;
+    const h = menu.offsetHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // keep on-screen
+    let left = x;
+    let top = y;
+    if (left + w + pad > vw) left = vw - w - pad;
+    if (top + h + pad > vh) top = vh - h - pad;
+    if (left < pad) left = pad;
+    if (top < pad) top = pad;
+
+    menu.style.left = left + 'px';
+    menu.style.top = top + 'px';
+  }
+
+  function bind(root) {
+    if (!root) return;
+    const menu = ensureMenu();
+    const titleEl = document.getElementById('igp-context-title');
+    const wikiEl = document.getElementById('igp-context-wiki');
+
+    root.addEventListener('contextmenu', function (ev) {
+      const node = ev.target.closest('.node');
+      if (!node) return; // let default browser menu elsewhere
+
+      ev.preventDefault();
+      const name = node.title || node.getAttribute('data-name') || 'Unknown item';
+      const wiki = node.dataset.wikiLink || '#';
+
+      titleEl.textContent = name;
+      wikiEl.href = wiki;
+      wikiEl.style.pointerEvents = wiki && wiki !== '#' ? 'auto' : 'none';
+      wikiEl.style.opacity = wiki && wiki !== '#' ? '1' : '.6';
+
+      // show & position
+      menu.style.display = 'block';
+      // temporarily position to measure size
+      menu.style.left = '0px';
+      menu.style.top = '0px';
+      requestAnimationFrame(() => {
+        placeMenu(menu, ev.clientX + 2, ev.clientY + 2);
+      });
+    });
+
+    // Close on click elsewhere
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#igp-context')) closeMenu();
+    });
+    // Close on Escape or Tab
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Tab') closeMenu();
+    });
+    // Close on window blur/resize
+    window.addEventListener('blur', closeMenu);
+    window.addEventListener('resize', closeMenu);
+    window.addEventListener('scroll', closeMenu, true);
+  }
+
+  // Try now, or wait for DOM ready
+  const rootNow = getChartRoot();
+  if (rootNow) {
+    bind(rootNow);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => bind(getChartRoot()));
+  }
+      #chart_gear .node.obtained:hover, #chart_milestones .node.obtained:hover {
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 2px 6px rgba(0,0,0,.35) !important;
 }
 
-#context-menu {
-    position: absolute;
-    background-color: var(--menu-bg);
-    border: 1px solid var(--menu-bg);
-    width: max-content;
-    display: none;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    font-family: "Trebuchet MS", Arial, sans-serif;
-}
-
-
-#menu-title {
-    background-color: var(--title-bg);
-    color: var(--menu-bg);
-    padding: 4px;
-    margin-bottom: 2px;
-}
-
-#button-container {
-    border: 1px solid var(--title-bg);
-    display: flex;
-    flex-direction: column;
-}
-
-.menu-button {
-    background-color: var(--menu-bg);
-    border: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 6px 8px;
-    cursor: pointer;
-    font-size: 14px;
-    width: 100%;
-    text-align: left;
-}
-
-.menu-button:hover .left-text {
-    color: var(--text-left-hover);
-    justify-content: left;
-}
-
-.left-text {
-    color: var(--text-left);
-    flex-grow: 0;
-    text-align: left;
-    text-shadow: 1px 1px 2px black;
-    /* Adds a slight dark shadow */
-    white-space: pre;
-}
-
-.right-text {
-    color: var(--text-right);
-    flex-grow: 0;
-    text-shadow: 1px 1px 2px black;
-    /* Consistent styling */
-}
+})();
