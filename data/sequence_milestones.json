@@ -2,43 +2,23 @@
   "groups": [
     {
       "name": "Easy Goals",
-      "items": [
-        "Amulet of strength",
-        "Climbing boots",
-        "Rune pouch"
-      ]
+      "items": ["Amulet of strength", "Climbing boots"]
     },
     {
       "name": "Medium Goals",
-      "items": [
-        "Fighter torso",
-        "Dragon defender",
-        "Barrows gloves"
-      ]
+      "items": ["Dragon scimitar", "Barrows gloves"]
     },
     {
       "name": "Hard Goals",
-      "items": [
-        "Occult necklace",
-        "Primordial boots",
-        "Neitiznot faceguard"
-      ]
+      "items": ["Neitiznot faceguard"]
     },
     {
       "name": "Elite Goals",
-      "items": [
-        "Dragon claws",
-        "Elder maul",
-        "Ancestral robe top"
-      ]
+      "items": ["Occult necklace"]
     },
     {
       "name": "Master Goals",
-      "items": [
-        "Twisted bow",
-        "Scythe of vitur",
-        "Tumeken's shadow"
-      ]
+      "items": ["Twisted bow"]
     }
   ]
 }
