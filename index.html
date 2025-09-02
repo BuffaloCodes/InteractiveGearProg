@@ -284,29 +284,52 @@
         const groups = normalizeSequence(seqJson);
         let missingCount = 0;
 
-        groups.forEach((col, idx) => {
-          const colDiv = document.createElement('div');
-          colDiv.className = 'node-group';
+// helper that renders a single string entry
+function renderOne(entry, targetColDiv) {
+  // choose best renderer
+  let node = buildItemNode(entry, itemsJson);
+  if (!node && isSkillToken(entry, itemsJson)) {
+    node = buildSkillNode(entry);
+  }
+  if (node) {
+    targetColDiv.appendChild(node);
+  } else {
+    missingCount++;
+    console.warn('Skipping unknown entry:', entry);
+  }
+}
 
-          col.forEach(entry => {
-            if (entry && typeof entry === 'object' && entry.__header) {
-              colDiv.appendChild(buildHeader(entry.__header));
-              return;
-            }
+groups.forEach((col, idx) => {
+  const colDiv = document.createElement('div');
+  colDiv.className = 'node-group';
 
-            // choose best renderer
-            let node = buildItemNode(entry, itemsJson);
-            if (!node && isSkillToken(entry, itemsJson)) {
-              node = buildSkillNode(entry);
-            }
+  col.forEach(entry => {
+    // group header marker
+    if (entry && typeof entry === 'object' && entry.__header) {
+      colDiv.appendChild(buildHeader(entry.__header));
+      return;
+    }
 
-            if (node) {
-              colDiv.appendChild(node);
-            } else {
-              missingCount++;
-              console.warn('Skipping unknown entry:', entry);
-            }
-          });
+    // NEW: handle nested arrays inside a column
+    if (Array.isArray(entry)) {
+      entry.forEach(sub => renderOne(sub, colDiv));
+      return;
+    }
+
+    // normal string item/skill
+    renderOne(entry, colDiv);
+  });
+
+  container.appendChild(colDiv);
+
+  if (idx !== groups.length - 1) {
+    const arrowDiv = document.createElement('div');
+    arrowDiv.className = 'arrow';
+    arrowDiv.textContent = '→';
+    container.appendChild(arrowDiv);
+  }
+});
+
 
           container.appendChild(colDiv);
 
@@ -328,15 +351,43 @@
           container.prepend(warn);
         }
 
-        applyStateAndEvents(container, loadSavedStates());
-      } catch (err) {
-        const msg = document.createElement('div');
-        msg.className = 'error';
-        msg.textContent = 'Failed to load data. Confirm data/items.json and both sequence files exist at those paths.';
-        container.appendChild(msg);
-        console.error(err);
-      }
-    }
+function applyStateAndEvents(container, saved) {
+  const nodes = container.querySelectorAll('.node');
+  nodes.forEach(node => {
+    const id = node.id;
+    const st = saved[id] || 0;
+    node.dataset.state = st;
+
+    // classes for our simple styling
+    node.classList.remove('state-0','state-1','state-2');
+    node.classList.add(`state-${st}`);
+
+    // ALSO add/remove the classic class many stylesheets expect
+    node.classList.toggle('obtained', st === 1);
+  });
+
+  container.addEventListener('click', ev => {
+    const node = ev.target.closest('.node');
+    if (!node) return;
+
+    const cur = parseInt(node.dataset.state) || 0;
+    const next = cur === 1 ? 0 : 1;
+    node.dataset.state = next;
+
+    node.classList.remove('state-0','state-1','state-2');
+    node.classList.add(`state-${next}`);
+    node.classList.toggle('obtained', next === 1);
+
+    const savedNow = loadSavedStates();
+    savedNow[node.id] = next;
+    saveStates(savedNow);
+  });
+
+  container.addEventListener('dragstart', ev => {
+    if (ev.target.tagName === 'IMG') ev.preventDefault();
+  });
+}
+
 
     document.addEventListener('DOMContentLoaded', async () => {
       // render both once
