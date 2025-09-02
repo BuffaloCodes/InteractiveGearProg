@@ -1,139 +1,111 @@
 // scripts/right-clicks.js
 (function () {
-  // Create a lightweight context menu
+  // ---- tiny context menu ----
   function ensureMenu() {
-    let menu = document.getElementById('igp-context');
-    if (menu) return menu;
+    let m = document.getElementById('igp-context');
+    if (m) return m;
 
-    menu = document.createElement('div');
-    menu.id = 'igp-context';
-    menu.style.position = 'fixed';
-    menu.style.minWidth = '220px';
-    menu.style.maxWidth = '280px';
-    menu.style.background = 'rgba(24,24,24,0.98)';
-    menu.style.color = '#fff';
-    menu.style.border = '1px solid rgba(255,255,255,.12)';
-    menu.style.borderRadius = '8px';
-    menu.style.boxShadow = '0 8px 24px rgba(0,0,0,.35)';
-    menu.style.padding = '6px';
-    menu.style.fontFamily = 'inherit';
-    menu.style.fontSize = '14px';
-    menu.style.lineHeight = '1.25';
-    menu.style.zIndex = '10000';
-    menu.style.backdropFilter = 'blur(6px)';
-    menu.style.display = 'none';
+    m = document.createElement('div');
+    m.id = 'igp-context';
+    Object.assign(m.style, {
+      position: 'fixed',
+      minWidth: '220px',
+      maxWidth: '280px',
+      background: 'rgba(20,20,22,0.98)',
+      color: '#e6e7eb',
+      border: '1px solid rgba(255,255,255,.08)',
+      borderRadius: '10px',
+      boxShadow: '0 10px 32px rgba(0,0,0,.45)',
+      padding: '6px',
+      fontFamily: 'inherit',
+      fontSize: '14px',
+      lineHeight: '1.25',
+      zIndex: 10000,
+      backdropFilter: 'blur(6px)',
+      display: 'none'
+    });
 
-    // title row
     const title = document.createElement('div');
     title.id = 'igp-context-title';
-    title.style.fontWeight = '700';
-    title.style.padding = '8px 10px';
-    title.style.borderRadius = '6px';
-    title.style.marginBottom = '4px';
-    title.style.background = 'rgba(255,255,255,.06)';
-    menu.appendChild(title);
+    Object.assign(title.style, {
+      fontWeight: '700',
+      padding: '9px 12px',
+      borderRadius: '8px',
+      marginBottom: '6px',
+      background: 'rgba(255,255,255,.05)',
+      color: '#fff',
+      wordBreak: 'break-word'
+    });
+    m.appendChild(title);
 
-    // action: go to wiki
     const wiki = document.createElement('a');
     wiki.id = 'igp-context-wiki';
     wiki.href = '#';
     wiki.target = '_blank';
     wiki.rel = 'noopener';
     wiki.textContent = 'Go to Wiki';
-    wiki.style.display = 'block';
-    wiki.style.textDecoration = 'none';
-    wiki.style.color = 'inherit';
-    wiki.style.padding = '8px 10px';
-    wiki.style.borderRadius = '6px';
-    wiki.style.cursor = 'pointer';
-    wiki.addEventListener('mouseover', () => wiki.style.background = 'rgba(255,255,255,.08)');
-    wiki.addEventListener('mouseout',  () => wiki.style.background = 'transparent');
-    menu.appendChild(wiki);
+    Object.assign(wiki.style, {
+      display: 'block',
+      textDecoration: 'none',
+      color: 'inherit',
+      padding: '9px 12px',
+      borderRadius: '8px',
+      cursor: 'pointer'
+    });
+    wiki.addEventListener('mouseover', () => (wiki.style.background = 'rgba(255,255,255,.08)'));
+    wiki.addEventListener('mouseout', () => (wiki.style.background = 'transparent'));
+    m.appendChild(wiki);
 
-    document.body.appendChild(menu);
-    return menu;
-  }
-
-  function getChartRoot() {
-    return (
-      document.getElementById('chart-container') || // legacy single-chart pages
-      document.getElementById('chart_gear') ||
-      document.getElementById('chart_milestones')
-    );
-  }
-
-  function closeMenu() {
-    const menu = document.getElementById('igp-context');
-    if (menu) menu.style.display = 'none';
+    document.body.appendChild(m);
+    return m;
   }
 
   function placeMenu(menu, x, y) {
-    const pad = 8;
-    const w = menu.offsetWidth;
-    const h = menu.offsetHeight;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    // keep on-screen
-    let left = x;
-    let top = y;
+    const pad = 8, w = menu.offsetWidth, h = menu.offsetHeight, vw = innerWidth, vh = innerHeight;
+    let left = x, top = y;
     if (left + w + pad > vw) left = vw - w - pad;
     if (top + h + pad > vh) top = vh - h - pad;
     if (left < pad) left = pad;
     if (top < pad) top = pad;
-
     menu.style.left = left + 'px';
     menu.style.top = top + 'px';
   }
-
-  function bind(root) {
-    if (!root) return;
-    const menu = ensureMenu();
-    const titleEl = document.getElementById('igp-context-title');
-    const wikiEl = document.getElementById('igp-context-wiki');
-
-    root.addEventListener('contextmenu', function (ev) {
-      const node = ev.target.closest('.node');
-      if (!node) return; // let default browser menu elsewhere
-
-      ev.preventDefault();
-      const name = node.title || node.getAttribute('data-name') || 'Unknown item';
-      const wiki = node.dataset.wikiLink || '#';
-
-      titleEl.textContent = name;
-      wikiEl.href = wiki;
-      wikiEl.style.pointerEvents = wiki && wiki !== '#' ? 'auto' : 'none';
-      wikiEl.style.opacity = wiki && wiki !== '#' ? '1' : '.6';
-
-      // show & position
-      menu.style.display = 'block';
-      // temporarily position to measure size
-      menu.style.left = '0px';
-      menu.style.top = '0px';
-      requestAnimationFrame(() => {
-        placeMenu(menu, ev.clientX + 2, ev.clientY + 2);
-      });
-    });
-
-    // Close on click elsewhere
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('#igp-context')) closeMenu();
-    });
-    // Close on Escape or Tab
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' || e.key === 'Tab') closeMenu();
-    });
-    // Close on window blur/resize
-    window.addEventListener('blur', closeMenu);
-    window.addEventListener('resize', closeMenu);
-    window.addEventListener('scroll', closeMenu, true);
+  function closeMenu() {
+    const m = document.getElementById('igp-context');
+    if (m) m.style.display = 'none';
   }
 
-  // Try now, or wait for DOM ready
-  const rootNow = getChartRoot();
-  if (rootNow) {
-    bind(rootNow);
-  } else {
-    document.addEventListener('DOMContentLoaded', () => bind(getChartRoot()));
-  }
+  const menu = ensureMenu();
+  const titleEl = () => document.getElementById('igp-context-title');
+  const wikiEl  = () => document.getElementById('igp-context-wiki');
+
+  // ------- event delegation: works in both tabs -------
+  document.addEventListener('contextmenu', (ev) => {
+    const node = ev.target.closest('.node');
+    const inCharts = ev.target.closest('#chart_gear, #chart_milestones');
+    if (!node || !inCharts) return; // let browser menu elsewhere
+
+    ev.preventDefault();
+    const name = node.title || node.getAttribute('data-name') || 'Unknown item';
+    const wiki = node.dataset.wikiLink || '#';
+
+    titleEl().textContent = name;
+    wikiEl().href = wiki;
+    const hasWiki = wiki && wiki !== '#';
+    wikiEl().style.pointerEvents = hasWiki ? 'auto' : 'none';
+    wikiEl().style.opacity = hasWiki ? '1' : '.55';
+
+    menu.style.display = 'block';
+    // temporarily position then correct for viewport
+    menu.style.left = '0px';
+    menu.style.top = '0px';
+    requestAnimationFrame(() => placeMenu(menu, ev.clientX + 2, ev.clientY + 2));
+  });
+
+  // Close menu on click-away / Esc / resize / scroll
+  document.addEventListener('click', (e) => { if (!e.target.closest('#igp-context')) closeMenu(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' || e.key === 'Tab') closeMenu(); });
+  addEventListener('blur', closeMenu);
+  addEventListener('resize', closeMenu);
+  addEventListener('scroll', closeMenu, true);
 })();
