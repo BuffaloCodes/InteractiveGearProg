@@ -1,8 +1,28 @@
 // scripts/right-clicks.js
 (function () {
-  // ---- tiny context menu ----
-  function ensureMenu() {
-    let m = document.getElementById('igp-context');
+  // --- utilities ---
+  function $(id) { return document.getElementById(id); }
+
+  function placeMenu(menu, x, y) {
+    const pad = 8, w = menu.offsetWidth, h = menu.offsetHeight, vw = innerWidth, vh = innerHeight;
+    let left = x, top = y;
+    if (left + w + pad > vw) left = vw - w - pad;
+    if (top + h + pad > vh) top = vh - h - pad;
+    if (left < pad) left = pad;
+    if (top < pad) top = pad;
+    menu.style.left = left + 'px';
+    menu.style.top = top + 'px';
+  }
+
+  function closeMenu() {
+    const m = $('igp-context');
+    if (m) m.style.display = 'none';
+  }
+
+  // --- create the menu only when the body exists ---
+  function buildMenu() {
+    if (!document.body) return null;           // body not ready yet
+    let m = $('igp-context');
     if (m) return m;
 
     m = document.createElement('div');
@@ -60,43 +80,46 @@
     return m;
   }
 
-  function placeMenu(menu, x, y) {
-    const pad = 8, w = menu.offsetWidth, h = menu.offsetHeight, vw = innerWidth, vh = innerHeight;
-    let left = x, top = y;
-    if (left + w + pad > vw) left = vw - w - pad;
-    if (top + h + pad > vh) top = vh - h - pad;
-    if (left < pad) left = pad;
-    if (top < pad) top = pad;
-    menu.style.left = left + 'px';
-    menu.style.top = top + 'px';
-  }
-  function closeMenu() {
-    const m = document.getElementById('igp-context');
-    if (m) m.style.display = 'none';
+  // get or (later) build the menu. returns null if body not ready yet.
+  function ensureMenu() {
+    return $('igp-context') || buildMenu();
   }
 
-  const menu = ensureMenu();
-  const titleEl = () => document.getElementById('igp-context-title');
-  const wikiEl  = () => document.getElementById('igp-context-wiki');
-
-  // ------- event delegation: works in both tabs -------
+  // ------- event delegation: works for both charts -------
   document.addEventListener('contextmenu', (ev) => {
     const node = ev.target.closest('.node');
-    const inCharts = ev.target.closest('#chart_gear, #chart_milestones');
-    if (!node || !inCharts) return; // let browser menu elsewhere
+    const inCharts = ev.target.closest('#chart_gear, #chart_milestones, #chart-container');
+    if (!node || !inCharts) return; // let the browser show its menu elsewhere
 
     ev.preventDefault();
+
+    // lazily ensure the menu (safe even if <body> wasn't ready earlier)
+    const menu = ensureMenu();
+    if (!menu) {
+      // body still not available (extremely rare). try after DOM is ready.
+      document.addEventListener('DOMContentLoaded', () => {
+        const m2 = ensureMenu(); if (!m2) return;
+        // re-dispatch the same event coordinates
+        m2.style.display = 'block';
+        requestAnimationFrame(() => placeMenu(m2, ev.clientX + 2, ev.clientY + 2));
+      }, { once: true });
+      return;
+    }
+
+    const titleEl = $('igp-context-title');
+    const wikiEl  = $('igp-context-wiki');
+
     const name = node.title || node.getAttribute('data-name') || 'Unknown item';
     const wiki = node.dataset.wikiLink || '#';
 
-    titleEl().textContent = name;
-    wikiEl().href = wiki;
+    titleEl.textContent = name;
+    wikiEl.href = wiki;
     const hasWiki = wiki && wiki !== '#';
-    wikiEl().style.pointerEvents = hasWiki ? 'auto' : 'none';
-    wikiEl().style.opacity = hasWiki ? '1' : '.55';
+    wikiEl.style.pointerEvents = hasWiki ? 'auto' : 'none';
+    wikiEl.style.opacity = hasWiki ? '1' : '.55';
 
     menu.style.display = 'block';
-    // temporarily position then correct for viewport
+    // temporarily position, then clamp to viewport next frame
     menu.style.left = '0px';
     menu.style.top = '0px';
     requestAnimationFrame(() => placeMenu(menu, ev.clientX + 2, ev.clientY + 2));
@@ -108,4 +131,8 @@
   addEventListener('blur', closeMenu);
   addEventListener('resize', closeMenu);
   addEventListener('scroll', closeMenu, true);
+
+  // Optional: if the script loaded very early, make sure the menu exists once DOM is ready
+  document.addEventListener('DOMContentLoaded', ensureMenu, { once: true });
 })();
+
