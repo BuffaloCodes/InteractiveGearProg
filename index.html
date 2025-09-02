@@ -6,6 +6,24 @@
   <title>Pierce's Chart</title>
   <!-- original site assets -->
   <script src="scripts/render-items.js" defer></script>
+  <script>
+  // Which sequence file should be used right now
+  window.SEQUENCE_FILE = 'data/sequence_gear.json';
+
+  // Rewrite requests for the default sequence to the active file
+  (function() {
+    const origFetch = window.fetch;
+    window.fetch = function(input, init) {
+      const url = typeof input === 'string' ? input : input && input.url;
+      if (url && /data\/sequence\.json(\?|$)/.test(url) && window.SEQUENCE_FILE) {
+        const swapped = url.replace('data/sequence.json', window.SEQUENCE_FILE);
+        input = typeof input === 'string' ? swapped : new Request(swapped, input);
+      }
+      return origFetch.call(this, input, init);
+    };
+  })();
+</script>
+
   <script src="scripts/right-clicks.js"></script>
   <script src="scripts/version.js" defer></script>
   <link rel="stylesheet" href="styles/styles.css" />
@@ -23,6 +41,46 @@
     .wrap { max-width: 1080px; margin: 0 auto; padding: .5rem .75rem 2rem; }
     .subtitle { display: block; margin-bottom: .5rem; }
   </style>
+  <script>
+  // Re-run the renderer by reloading the script fresh
+  function rerunRenderer() {
+    // clear any previous chart content
+    const active = document.querySelector('.panel.active .chart');
+    if (active) active.innerHTML = '';
+
+    // reload the render script so it fetches the new sequence file
+    const old = document.querySelector('script[data-reloader="render"]');
+    if (old) old.remove();
+    const s = document.createElement('script');
+    s.src = 'scripts/render-items.js?v=' + Date.now();
+    s.setAttribute('data-reloader', 'render');
+    document.body.appendChild(s);
+  }
+
+  // Call these when switching tabs
+  function useGearSequence() {
+    window.SEQUENCE_FILE = 'data/sequence_gear.json';
+    rerunRenderer();
+  }
+  function useMilestoneSequence() {
+    window.SEQUENCE_FILE = 'data/sequence_milestones.json';
+    rerunRenderer();
+  }
+
+  // Wire up your existing tab buttons
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnMil = document.getElementById('btn_milestones');
+    const btnGear = document.getElementById('btn_gear');
+
+    if (btnMil) btnMil.addEventListener('click', useMilestoneSequence);
+    if (btnGear) btnGear.addEventListener('click', useGearSequence);
+
+    // On first load, pick the right sequence for whichever tab is active
+    const activeIsMilestones = document.getElementById('panel_milestones')?.classList.contains('active');
+    window.SEQUENCE_FILE = activeIsMilestones ? 'data/sequence_milestones.json' : 'data/sequence_gear.json';
+  });
+</script>
+
 </head>
 <body>
   <!-- tabs header -->
