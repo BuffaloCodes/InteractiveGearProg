@@ -1,80 +1,155 @@
-<!-- 
-chart-container is property of scripts/render-items.js,
-The rest is stock-standard stuff.
-
--->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pierce's Chart</title>
-    <script src="scripts/render-items.js" defer></script>
-    <script src="scripts/right-clicks.js"></script>
-    <script src="scripts/version.js" defer></script>
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/right-clicks.css">
-    <script data-goatcounter="https://ladlor0interactive0prog.goatcounter.com/count" async
-        src="//gc.zgo.at/count.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pierce's Chart</title>
+  <!-- original site assets -->
+  <script src="scripts/render-items.js" defer></script>
+  <script src="scripts/right-clicks.js"></script>
+  <script src="scripts/version.js" defer></script>
+  <link rel="stylesheet" href="styles/styles.css" />
+  <link rel="stylesheet" href="styles/right-clicks.css" />
+  <script data-goatcounter="https://ladlor0interactive0prog.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    /* Minimal additions, keep look and feel close to existing */
+    .topbar { position: sticky; top: 0; z-index: 20; background: rgba(0,0,0,.5); backdrop-filter: blur(6px); padding: .5rem .75rem; }
+    .tabs { display: inline-flex; gap: .5rem; }
+    .tab_btn { appearance: none; border: 1px solid #444; background: transparent; color: inherit; padding: .45rem .8rem; border-radius: .5rem; cursor: pointer; font: inherit; font-weight: 600; }
+    .tab_btn:hover { background: rgba(255,255,255,.05); }
+    .tab_btn.active { background: rgba(255,255,255,.12); border-color: #555; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: .5rem .75rem 2rem; }
+    .subtitle { display: block; margin-bottom: .5rem; }
+  </style>
 </head>
-
 <body>
-    <h1>Interactive Ironman Progression Chart</h1>
-    <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community — made by BuffaloDad</span>
-    <div class="chart" id="chart-container"></div>
+  <!-- tabs header -->
+  <div class="topbar">
+    <div class="tabs">
+      <button class="tab_btn" data-tab="milestones" id="btn_milestones">Milestones</button>
+      <button class="tab_btn" data-tab="gear" id="btn_gear">Gear Progression</button>
     </div>
-    <h2>Acknowledgements</h2>
-    <p>
-        A special thank you to the <a href="https://discord.gg/ironscape" target="_blank">Ironscape Discord
-            Community</a> for their support and contributions in refining the sequencing of milestones. I would like to
-        acknowledge the following members for their invaluable efforts (in no particular order):
-    </p>
-    <ul>
-        <li>
-            <strong>Parasailer</strong>: Author of <em>Parasailer's Gear Progression Chart</em> and co-author of
-            <em><a href="https://docs.google.com/document/d/1CBkFM70SnrW4hJXvHM2F1fYCuBF_fRnEXnTYgRnRkAE/edit?usp=sharing">BRUHSailer</a></em>, the comprehensive Ironman account progression guide. The current gear progression
-            sequence is largely based on the aforementioned chart, and by extension, <em>BRUHSailer</em>.
-        </li>
-        <li>
-            <strong>So Iron Bruh</strong>: Provided quality assurance and co-authored <em>BRUHSailer</em>.
-        </li>
+  </div>
 
-        <li>
-            <strong>Drøgøn</strong>: Provided quality assurance and contributed extensive theorycrafting for new metas.
-        </li>
+  <div class="wrap">
+    <!-- two panels share same content for now -->
+    <section id="panel_milestones" class="panel"></section>
+    <section id="panel_gear" class="panel"></section>
 
+    <!-- template holds the original page content so we can clone it into both panels without duplication edits later -->
+    <template id="page_template">
+      <h1>Interactive Ironman Progression Chart</h1>
+      <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community — made by BuffaloDad</span>
+      <div class="chart" id="chart-container"></div>
+
+      <h2>Acknowledgements</h2>
+      <p>
+        A special thank you to the <a href="https://discord.gg/ironscape" target="_blank">Ironscape Discord Community</a> for their support and contributions in refining the sequencing of milestones. I would like to acknowledge the following members for their invaluable efforts (in no particular order):
+      </p>
+      <ul>
         <li>
-            <strong>Raze</strong>: Assisted with quality assurance.
+          <strong>Parasailer</strong>: Author of <em>Parasailer's Gear Progression Chart</em> and co-author of
+          <em><a href="https://docs.google.com/document/d/1CBkFM70SnrW4hJXvHM2F1fYCuBF_fRnEXnTYgRnRkAE/edit?usp=sharing">BRUHSailer</a></em>, the comprehensive Ironman account progression guide. The current gear progression sequence is largely based on the aforementioned chart, and by extension, <em>BRUHSailer</em>.
         </li>
         <li>
-            <strong>Wolf</strong>: Provided insight into accounting for ancient shards.
+          <strong>So Iron Bruh</strong>: Provided quality assurance and co-authored <em>BRUHSailer</em>.
         </li>
-    </ul>
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq-section">
+        <li>
+          <strong>Drøgøn</strong>: Provided quality assurance and contributed extensive theorycrafting for new metas.
+        </li>
+        <li>
+          <strong>Raze</strong>: Assisted with quality assurance.
+        </li>
+        <li>
+          <strong>Wolf</strong>: Provided insight into accounting for ancient shards.
+        </li>
+      </ul>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-section">
         <p><strong>Q:</strong> What item is this?</p>
-        <p><strong>A:</strong> You can right click the item, which shows a menu displaying the name. Additionaly you can
-            navigate to the corresponding OSRS wiki page from this menu.</p>
+        <p><strong>A:</strong> You can right click the item, which shows a menu displaying the name. Additionaly you can navigate to the corresponding OSRS wiki page from this menu.</p>
         <p><strong>Q:</strong> How is my progress saved?</p>
-        <p><strong>A:</strong> Your progress is saved using local storage in your browser. It will remain intact even if
-            you refresh or close the page.</p>
-        <p><strong>Q:</strong> Does a pvm-focused version exist?</p>
-        <p><strong>A:</strong> Yes! A "bare bones" version can be found <a href="pages/bare-bones.html">here</a>.</p>
+        <p><strong>A:</strong> Your progress is saved using local storage in your browser. It will remain intact even if you refresh or close the page.</p>
+        <p><strong>Q:</strong> Does a pvm focused version exist?</p>
+        <p><strong>A:</strong> Yes. A bare bones version can be found <a href="pages/bare-bones.html">here</a>.</p>
         <p>For more questions, visit the <a href="pages/faq.html">full FAQ page</a>.</p>
-    </div>
-    <footer>
-        <p><span id="version"></span> | <a href="pages/changelog.html">View Changelog</a> | <a
-                href="pages/privacy.html">Privacy
-                Policy</a> | <a href="https://github.com/Madssb/InteractiveGearProg">Source Code</a></p>
-        <p>All images used in this tool are sourced from the
-            <a href="https://oldschool.runescape.wiki/" target="_blank">Old School RuneScape Wiki</a>,
-            and are licensed under the
-            <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons
-                Attribution-NonCommercial-ShareAlike 3.0 License</a>.
-            © 2013–2024 Jagex Ltd. All rights reserved.
-        </p>
-    </footer>
+      </div>
+
+      <footer>
+        <p><span id="version"></span> | <a href="pages/changelog.html">View Changelog</a> | <a href="pages/privacy.html">Privacy Policy</a> | <a href="https://github.com/Madssb/InteractiveGearProg">Source Code</a></p>
+        <p>All images used in this tool are sourced from the <a href="https://oldschool.runescape.wiki/" target="_blank">Old School RuneScape Wiki</a>, and are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons Attribution NonCommercial ShareAlike 3.0 License</a>. © 2013 to 2024 Jagex Ltd. All rights reserved.</p>
+      </footer>
+    </template>
+  </div>
+
+  <script>
+    // simple tab state persistence
+    const ACTIVE_TAB_KEY = 'igp_active_tab';
+
+    function set_active_tab(name) {
+      const panels = { milestones: document.getElementById('panel_milestones'), gear: document.getElementById('panel_gear') };
+      const buttons = { milestones: document.getElementById('btn_milestones'), gear: document.getElementById('btn_gear') };
+
+      Object.values(panels).forEach(p => p.classList.remove('active'));
+      Object.values(buttons).forEach(b => b.classList.remove('active'));
+      if (panels[name]) panels[name].classList.add('active');
+      if (buttons[name]) buttons[name].classList.add('active');
+      try { localStorage.setItem(ACTIVE_TAB_KEY, name); } catch(e) {}
+    }
+
+    function get_active_tab_default() {
+      try {
+        const saved = localStorage.getItem(ACTIVE_TAB_KEY);
+        if (saved === 'milestones' || saved === 'gear') return saved;
+      } catch(e) {}
+      return 'gear';
+    }
+
+    function clone_template_into(el) {
+      const tpl = document.getElementById('page_template');
+      const node = tpl.content.cloneNode(true);
+      el.innerHTML = '';
+      el.appendChild(node);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // clone same content into both panels
+      clone_template_into(document.getElementById('panel_milestones'));
+      clone_template_into(document.getElementById('panel_gear'));
+
+      // ensure the chart root id exists in both panels
+      // the original render script targets id chart-container
+      // since ids must be unique, we adjust by adding a duplicate id just before render
+      // approach: if render script needs the id, we will dynamically set it on the visible panel only
+
+      // observe tab changes to swap the active chart container id
+      function sync_chart_id() {
+        const mil = document.querySelector('#panel_milestones .chart');
+        const gear = document.querySelector('#panel_gear .chart');
+        mil && mil.removeAttribute('id');
+        gear && gear.removeAttribute('id');
+        const activePanel = document.querySelector('.panel.active');
+        const activeChart = activePanel && activePanel.querySelector('.chart');
+        if (activeChart) activeChart.id = 'chart-container';
+      }
+
+      document.getElementById('btn_milestones').addEventListener('click', () => { set_active_tab('milestones'); sync_chart_id(); });
+      document.getElementById('btn_gear').addEventListener('click', () => { set_active_tab('gear'); sync_chart_id(); });
+
+      // first paint
+      set_active_tab(get_active_tab_default());
+      sync_chart_id();
+
+      // Optional: re run render when swapping tabs if your renderer does not auto update
+      // If scripts/render-items.js exposes a re render function, call it after sync_chart_id()
+      // Example: if (window.renderChart) window.renderChart();
+    });
+  </script>
 </body>
+</html>
+
 
 </html>
