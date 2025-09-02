@@ -1,86 +1,53 @@
+<!-- 
+chart-container is property of scripts/render-items.js
+The rest is stock standard stuff.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pierce's Chart</title>
-  <!-- original site assets -->
-  <script src="scripts/render-items.js" defer></script>
+
+  <!-- fetch override chooses the active sequence file -->
   <script>
-  // Which sequence file should be used right now
-  window.SEQUENCE_FILE = 'data/sequence_gear.json';
+    // default to Gear sequence until the page decides based on the active tab
+    window.SEQUENCE_FILE = 'data/sequence_gear.json';
 
-  // Rewrite requests for the default sequence to the active file
-  (function() {
-    const origFetch = window.fetch;
-    window.fetch = function(input, init) {
-      const url = typeof input === 'string' ? input : input && input.url;
-      if (url && /data\/sequence\.json(\?|$)/.test(url) && window.SEQUENCE_FILE) {
-        const swapped = url.replace('data/sequence.json', window.SEQUENCE_FILE);
-        input = typeof input === 'string' ? swapped : new Request(swapped, input);
-      }
-      return origFetch.call(this, input, init);
-    };
-  })();
-</script>
+    // redirect any fetch for data/sequence.json to the active file
+    (function() {
+      const origFetch = window.fetch;
+      window.fetch = function(input, init) {
+        const url = typeof input === 'string' ? input : input && input.url;
+        if (url && /data\/sequence\.json(\?|$)/.test(url) && window.SEQUENCE_FILE) {
+          const swapped = url.replace('data/sequence.json', window.SEQUENCE_FILE);
+          input = typeof input === 'string' ? swapped : new Request(swapped, input);
+        }
+        return origFetch.call(this, input, init);
+      };
+    })();
+  </script>
 
+  <!-- site assets unchanged -->
+  <!-- IMPORTANT: do not include render-items.js statically. We will inject it when ready. -->
   <script src="scripts/right-clicks.js"></script>
   <script src="scripts/version.js" defer></script>
   <link rel="stylesheet" href="styles/styles.css" />
   <link rel="stylesheet" href="styles/right-clicks.css" />
   <script data-goatcounter="https://ladlor0interactive0prog.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  <!-- small styles only for the tab UI -->
   <style>
-    /* Minimal additions, keep look and feel close to existing */
-    .topbar { position: sticky; top: 0; z-index: 20; background: rgba(0,0,0,.5); backdrop-filter: blur(6px); padding: .5rem .75rem; }
+    .topbar { position: sticky; top: 0; z-index: 20; background: rgba(0,0,0,.5); backdrop-filter: blur(6px); padding: .5rem .75rem; border-bottom: 1px solid rgba(255,255,255,.08); }
     .tabs { display: inline-flex; gap: .5rem; }
     .tab_btn { appearance: none; border: 1px solid #444; background: transparent; color: inherit; padding: .45rem .8rem; border-radius: .5rem; cursor: pointer; font: inherit; font-weight: 600; }
     .tab_btn:hover { background: rgba(255,255,255,.05); }
     .tab_btn.active { background: rgba(255,255,255,.12); border-color: #555; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: .5rem .75rem 2rem; }
     .panel { display: none; }
     .panel.active { display: block; }
-    .wrap { max-width: 1080px; margin: 0 auto; padding: .5rem .75rem 2rem; }
     .subtitle { display: block; margin-bottom: .5rem; }
   </style>
-  <script>
-  // Re-run the renderer by reloading the script fresh
-  function rerunRenderer() {
-    // clear any previous chart content
-    const active = document.querySelector('.panel.active .chart');
-    if (active) active.innerHTML = '';
-
-    // reload the render script so it fetches the new sequence file
-    const old = document.querySelector('script[data-reloader="render"]');
-    if (old) old.remove();
-    const s = document.createElement('script');
-    s.src = 'scripts/render-items.js?v=' + Date.now();
-    s.setAttribute('data-reloader', 'render');
-    document.body.appendChild(s);
-  }
-
-  // Call these when switching tabs
-  function useGearSequence() {
-    window.SEQUENCE_FILE = 'data/sequence_gear.json';
-    rerunRenderer();
-  }
-  function useMilestoneSequence() {
-    window.SEQUENCE_FILE = 'data/sequence_milestones.json';
-    rerunRenderer();
-  }
-
-  // Wire up your existing tab buttons
-  document.addEventListener('DOMContentLoaded', () => {
-    const btnMil = document.getElementById('btn_milestones');
-    const btnGear = document.getElementById('btn_gear');
-
-    if (btnMil) btnMil.addEventListener('click', useMilestoneSequence);
-    if (btnGear) btnGear.addEventListener('click', useGearSequence);
-
-    // On first load, pick the right sequence for whichever tab is active
-    const activeIsMilestones = document.getElementById('panel_milestones')?.classList.contains('active');
-    window.SEQUENCE_FILE = activeIsMilestones ? 'data/sequence_milestones.json' : 'data/sequence_gear.json';
-  });
-</script>
-
 </head>
 <body>
   <!-- tabs header -->
@@ -92,69 +59,82 @@
   </div>
 
   <div class="wrap">
-    <!-- two panels share same content for now -->
+    <!-- panels -->
     <section id="panel_milestones" class="panel"></section>
     <section id="panel_gear" class="panel"></section>
 
-    <!-- template holds the original page content so we can clone it into both panels without duplication edits later -->
+    <!-- template of the original page content. cloned into both panels -->
     <template id="page_template">
       <h1>Interactive Ironman Progression Chart</h1>
       <span class="subtitle">Curated by the <s>Ironscape</s> fun maxing community — made by BuffaloDad</span>
+
       <div class="chart" id="chart-container"></div>
 
       <h2>Acknowledgements</h2>
       <p>
-        A special thank you to the <a href="https://discord.gg/ironscape" target="_blank">Ironscape Discord Community</a> for their support and contributions in refining the sequencing of milestones. I would like to acknowledge the following members for their invaluable efforts (in no particular order):
+        A special thank you to the <a href="https://discord.gg/ironscape" target="_blank">Ironscape Discord
+          Community</a> for their support and contributions in refining the sequencing of milestones. I would like to
+        acknowledge the following members for their invaluable efforts (in no particular order):
       </p>
       <ul>
         <li>
           <strong>Parasailer</strong>: Author of <em>Parasailer's Gear Progression Chart</em> and co-author of
-          <em><a href="https://docs.google.com/document/d/1CBkFM70SnrW4hJXvHM2F1fYCuBF_fRnEXnTYgRnRkAE/edit?usp=sharing">BRUHSailer</a></em>, the comprehensive Ironman account progression guide. The current gear progression sequence is largely based on the aforementioned chart, and by extension, <em>BRUHSailer</em>.
+          <em><a href="https://docs.google.com/document/d/1CBkFM70SnrW4hJXvHM2F1fYCuBF_fRnEXnTYgRnRkAE/edit?usp=sharing">BRUHSailer</a></em>, the comprehensive Ironman account progression guide. The current gear progression
+          sequence is largely based on the aforementioned chart, and by extension, <em>BRUHSailer</em>.
         </li>
-        <li>
-          <strong>So Iron Bruh</strong>: Provided quality assurance and co-authored <em>BRUHSailer</em>.
-        </li>
-        <li>
-          <strong>Drøgøn</strong>: Provided quality assurance and contributed extensive theorycrafting for new metas.
-        </li>
-        <li>
-          <strong>Raze</strong>: Assisted with quality assurance.
-        </li>
-        <li>
-          <strong>Wolf</strong>: Provided insight into accounting for ancient shards.
-        </li>
+        <li><strong>So Iron Bruh</strong>: Provided quality assurance and co-authored <em>BRUHSailer</em>.</li>
+        <li><strong>Drøgøn</strong>: Provided quality assurance and contributed extensive theorycrafting for new metas.</li>
+        <li><strong>Raze</strong>: Assisted with quality assurance.</li>
+        <li><strong>Wolf</strong>: Provided insight into accounting for ancient shards.</li>
       </ul>
 
       <h2>Frequently Asked Questions</h2>
       <div class="faq-section">
         <p><strong>Q:</strong> What item is this?</p>
-        <p><strong>A:</strong> You can right click the item, which shows a menu displaying the name. Additionaly you can navigate to the corresponding OSRS wiki page from this menu.</p>
+        <p><strong>A:</strong> You can right click the item, which shows a menu displaying the name. Additionaly you can
+          navigate to the corresponding OSRS wiki page from this menu.</p>
         <p><strong>Q:</strong> How is my progress saved?</p>
-        <p><strong>A:</strong> Your progress is saved using local storage in your browser. It will remain intact even if you refresh or close the page.</p>
+        <p><strong>A:</strong> Your progress is saved using local storage in your browser. It will remain intact even if
+          you refresh or close the page.</p>
         <p><strong>Q:</strong> Does a pvm focused version exist?</p>
         <p><strong>A:</strong> Yes. A bare bones version can be found <a href="pages/bare-bones.html">here</a>.</p>
         <p>For more questions, visit the <a href="pages/faq.html">full FAQ page</a>.</p>
       </div>
 
       <footer>
-        <p><span id="version"></span> | <a href="pages/changelog.html">View Changelog</a> | <a href="pages/privacy.html">Privacy Policy</a> | <a href="https://github.com/Madssb/InteractiveGearProg">Source Code</a></p>
-        <p>All images used in this tool are sourced from the <a href="https://oldschool.runescape.wiki/" target="_blank">Old School RuneScape Wiki</a>, and are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons Attribution NonCommercial ShareAlike 3.0 License</a>. © 2013 to 2024 Jagex Ltd. All rights reserved.</p>
+        <p><span id="version"></span> | <a href="pages/changelog.html">View Changelog</a> | <a
+            href="pages/privacy.html">Privacy Policy</a> | <a href="https://github.com/Madssb/InteractiveGearProg">Source Code</a></p>
+        <p>All images used in this tool are sourced from the
+          <a href="https://oldschool.runescape.wiki/" target="_blank">Old School RuneScape Wiki</a>,
+          and are licensed under the
+          <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons
+            Attribution NonCommercial ShareAlike 3.0 License</a>.
+          © 2013 to 2024 Jagex Ltd. All rights reserved.
+        </p>
       </footer>
     </template>
   </div>
 
   <script>
-    // simple tab state persistence
+    // local key for remembering which tab was last used
     const ACTIVE_TAB_KEY = 'igp_active_tab';
 
     function set_active_tab(name) {
-      const panels = { milestones: document.getElementById('panel_milestones'), gear: document.getElementById('panel_gear') };
-      const buttons = { milestones: document.getElementById('btn_milestones'), gear: document.getElementById('btn_gear') };
+      const panels = {
+        milestones: document.getElementById('panel_milestones'),
+        gear: document.getElementById('panel_gear')
+      };
+      const buttons = {
+        milestones: document.getElementById('btn_milestones'),
+        gear: document.getElementById('btn_gear')
+      };
 
       Object.values(panels).forEach(p => p.classList.remove('active'));
       Object.values(buttons).forEach(b => b.classList.remove('active'));
+
       if (panels[name]) panels[name].classList.add('active');
       if (buttons[name]) buttons[name].classList.add('active');
+
       try { localStorage.setItem(ACTIVE_TAB_KEY, name); } catch(e) {}
     }
 
@@ -173,41 +153,71 @@
       el.appendChild(node);
     }
 
+    // ensure only the active panel has id chart-container for the renderer
+    function sync_chart_id() {
+      const mil = document.querySelector('#panel_milestones .chart');
+      const gear = document.querySelector('#panel_gear .chart');
+      if (mil) mil.removeAttribute('id');
+      if (gear) gear.removeAttribute('id');
+      const activePanel = document.querySelector('.panel.active');
+      const activeChart = activePanel && activePanel.querySelector('.chart');
+      if (activeChart) activeChart.id = 'chart-container';
+    }
+
+    // reload the renderer so it fetches the currently selected sequence file
+    function rerunRenderer() {
+      // clear current visible chart
+      const activeChart = document.querySelector('.panel.active .chart');
+      if (activeChart) activeChart.innerHTML = '';
+
+      // remove any prior injected render script
+      const old = document.querySelector('script[data-reloader="render"]');
+      if (old) old.remove();
+
+      // inject fresh renderer with cache bust
+      const s = document.createElement('script');
+      s.src = 'scripts/render-items.js?v=' + Date.now();
+      s.setAttribute('data-reloader', 'render');
+      document.body.appendChild(s);
+    }
+
+    function useGearSequence() {
+      window.SEQUENCE_FILE = 'data/sequence_gear.json';
+      sync_chart_id();
+      rerunRenderer();
+    }
+
+    function useMilestoneSequence() {
+      window.SEQUENCE_FILE = 'data/sequence_milestones.json';
+      sync_chart_id();
+      rerunRenderer();
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      // clone same content into both panels
+      // clone original content into both panels
       clone_template_into(document.getElementById('panel_milestones'));
       clone_template_into(document.getElementById('panel_gear'));
 
-      // ensure the chart root id exists in both panels
-      // the original render script targets id chart-container
-      // since ids must be unique, we adjust by adding a duplicate id just before render
-      // approach: if render script needs the id, we will dynamically set it on the visible panel only
-
-      // observe tab changes to swap the active chart container id
-      function sync_chart_id() {
-        const mil = document.querySelector('#panel_milestones .chart');
-        const gear = document.querySelector('#panel_gear .chart');
-        mil && mil.removeAttribute('id');
-        gear && gear.removeAttribute('id');
-        const activePanel = document.querySelector('.panel.active');
-        const activeChart = activePanel && activePanel.querySelector('.chart');
-        if (activeChart) activeChart.id = 'chart-container';
-      }
-
-      document.getElementById('btn_milestones').addEventListener('click', () => { set_active_tab('milestones'); sync_chart_id(); });
-      document.getElementById('btn_gear').addEventListener('click', () => { set_active_tab('gear'); sync_chart_id(); });
+      // wire tab buttons
+      document.getElementById('btn_milestones').addEventListener('click', () => {
+        set_active_tab('milestones');
+        useMilestoneSequence();
+      });
+      document.getElementById('btn_gear').addEventListener('click', () => {
+        set_active_tab('gear');
+        useGearSequence();
+      });
 
       // first paint
       set_active_tab(get_active_tab_default());
-      sync_chart_id();
+      // choose sequence file based on the active tab
+      window.SEQUENCE_FILE = document.getElementById('panel_milestones').classList.contains('active')
+        ? 'data/sequence_milestones.json'
+        : 'data/sequence_gear.json';
 
-      // Optional: re run render when swapping tabs if your renderer does not auto update
-      // If scripts/render-items.js exposes a re render function, call it after sync_chart_id()
-      // Example: if (window.renderChart) window.renderChart();
+      sync_chart_id();
+      rerunRenderer();  /* ensure we render once on initial load */
     });
   </script>
 </body>
-</html>
-
-
 </html>
