@@ -33,6 +33,76 @@
     .node { display: inline-block; position: relative; box-sizing: border-box; }
     .node img { display: block; max-width: 48px; height: auto; }
     .node .skill { display: inline-flex; align-items: center; gap: 6px; }
+    /* ==== Hard reset for tab charts only ==== */
+#chart_gear, #chart_milestones {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  position: relative !important;
+  clear: both !important;
+}
+
+/* kill any legacy absolute/float rules under the charts */
+#chart_gear *, #chart_milestones * {
+  float: none !important;
+}
+
+/* columns */
+#chart_gear .node-group, #chart_milestones .node-group {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  position: static !important;
+}
+
+/* item tiles */
+#chart_gear .node, #chart_milestones .node {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 52px !important;
+  height: 52px !important;
+  box-sizing: border-box !important;
+  position: static !important;   /* cancel absolute */
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+/* icons */
+#chart_gear .node img, #chart_milestones .node img {
+  display: block !important;
+  width: 48px !important;
+  height: auto !important;
+  max-width: none !important;
+}
+
+/* skill token badge layout */
+#chart_gear .node .skill, #chart_milestones .node .skill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+/* headers between groups */
+#chart_gear .milestone-header, #chart_milestones .milestone-header {
+  width: 100% !important;
+  margin-top: 16px !important;
+  margin-bottom: 6px !important;
+  font-size: 1.1rem !important;
+  border-bottom: 1px solid rgba(255,255,255,.2) !important;
+  padding-bottom: 4px !important;
+}
+
+/* the little arrows between columns (optional) */
+#chart_gear .arrow, #chart_milestones .arrow {
+  align-self: center !important;
+  font-weight: 700 !important;
+}
+
   </style>
 </head>
 <body>
