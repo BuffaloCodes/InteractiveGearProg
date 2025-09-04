@@ -4,10 +4,55 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "Bird houses": {
+        "itemID": "1725",
+        "imgSrc": "images/bird_house.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Bird_house_trapping"
+    },
+    "The Fremmenik Trials": {
+        "itemID": "1725",
+        "imgSrc": "images/Berserker_helm.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/The_Fremennik_Trials"
+    },
+    "Alfred Grimhand's Barcrawl": {
+        "itemID": "1725",
+        "imgSrc": "images/Barcrawl_card.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Alfred_Grimhand%27s_Barcrawl"
+    },
+    "Ava's attractor": {
+        "itemID": "1725",
+        "imgSrc": "images/Ava's_attractor_1.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Ava%27s_attractor"
+    },
+    "Ardougne Cloak 1": {
+        "itemID": "1725",
+        "imgSrc": "images/Ardougne_cloak_1.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Ardougne_cloak_1"
+    },
+    "Ardougne Cloak 2": {
+        "itemID": "1725",
+        "imgSrc": "images/Ardougne_cloak_2.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Ardougne_cloak_2"
+    },
+    "Angler outfit": {
+        "itemID": "1725",
+        "imgSrc": "images/Angler_hat.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Angler%27s_outfit"
+    },
     "Graceful outfit": {
         "itemID": "1725",
         "imgSrc": "images/Graceful_boots.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Graceful_outfit"
+    },
+    "Magic Secateurs": {
+        "itemID": "1725",
+        "imgSrc": "images/Magic_secateurs.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Magic_secateurs"
+    },
+    "Quetzal_Transport": {
+        "itemID": "1725",
+        "imgSrc": "images/280px-Renu.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Quetzal_Transport_System"
     },
     "Construction 84": {
         "itemID": "1725",
