@@ -6,7 +6,7 @@
     },
     "Bird houses": {
         "itemID": "1725",
-        "imgSrc": "images/bird_house.webp",
+        "imgSrc": "images/Bird_house.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Bird_house_trapping"
     },
     "The Fremmenik Trials": {
@@ -21,7 +21,7 @@
     },
     "Ava's attractor": {
         "itemID": "1725",
-        "imgSrc": "images/Ava's_attractor_1.webp",
+        "imgSrc": "images/Ava's_attractor.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Ava%27s_attractor"
     },
     "Ardougne cloak 1": {
