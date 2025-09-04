@@ -9,6 +9,12 @@
         "imgSrc": "images/Graceful_boots.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Graceful_outfit"
     },
+    },
+    "Fairy rings": {
+        "itemID": "1725",
+        "imgSrc": "images/200px-Fairy_ring.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Fairy_rings"
+    },
     "Rogue_equipment": {
         "itemID": "1725",
         "imgSrc": "images/Rogue_mask.webp",
