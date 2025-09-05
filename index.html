@@ -91,6 +91,16 @@
 #chart_milestones, #chart_milestones .goal-grid, #chart_milestones .node {
   touch-action: manipulation; /* reduces accidental scroll/zoom interference */
 }
+/* Improve long-press menu reliability and block native image callout */
+#chart_gear .node, #chart_milestones .node,
+#chart_gear .node img, #chart_milestones .node img {
+  -webkit-touch-callout: none;   /* iOS: disable Save Image sheet */
+  user-select: none;
+}
+
+#chart_milestones, #chart_milestones .goal-grid, #chart_milestones .node {
+  touch-action: manipulation;    /* reduce scroll/zoom interference */
+}
 
   </style>
 </head>
