@@ -2,42 +2,37 @@
   "groups": [
     {
       "name": "Easy Goals",
-"items": [
-  // Outfits
-  "Graceful outfit",
-  "Rogue equipment",
-  "Angler outfit",
+      "items": [
+        "Graceful outfit",
+        "Rogue equipment",
+        "Angler outfit",
 
-  // Combat Gear
-  "Dorgeshuun crossbow",
-  "Climbing boots",
-  "Elemental shield",
-  "Ava's attractor",
-  "Amulet of strength",
-  "Iban's staff",
+        "Dorgeshuun crossbow",
+        "Climbing boots",
+        "Elemental shield",
+        "Ava's attractor",
+        "Amulet of strength",
+        "Iban's staff",
 
-  // Prayer / Spells
-  "Protect from Melee",
-  "High Level Alchemy",
+        "Protect from Melee",
+        "High Level Alchemy",
 
-  // Teleports & Travel
-  "Fairy rings",
-  "Ardougne cloak 1",
-  "Ardougne cloak 2",
-  "Camelot teleport",
-  "Explorer's ring 2",
-  "Ectophial",
-  "Trollheim teleport",
+        "Fairy rings",
+        "Ardougne cloak 1",
+        "Ardougne cloak 2",
+        "Camelot teleport",
+        "Explorer's ring 2",
+        "Ectophial",
+        "Trollheim teleport",
 
-  // Skilling Unlocks
-  "Bird house trapping",
-  "Farming Guild",
+        "Bird house trapping",
+        "Farming Guild",
 
-  // Quests / Diary Unlocks
-  "Alfred Grimhand's Barcrawl",
-  "Fremmenik Trials",
-]
-,
+        "Alfred Grimhand's Barcrawl",
+        "Fremmenik Trials",
+        "Quests/Free-to-Play"
+      ]
+    },
     {
       "name": "Medium Goals",
       "items": ["Dragon scimitar", "Barrows gloves"]
