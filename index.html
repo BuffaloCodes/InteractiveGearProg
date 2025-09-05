@@ -188,24 +188,43 @@
     /* ------------------ state handling ------------------ */
     function loadSavedStates() { try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch(e) { return {}; } }
     function saveStates(map) { try { localStorage.setItem(SAVE_KEY, JSON.stringify(map)); } catch(e) {} }
-    function applyStateAndEvents(container, saved) {
-      const nodes = container.querySelectorAll('.node');
-      nodes.forEach(node => {
-        const id = node.id; const st = saved[id] || 0;
-        node.dataset.state = st;
-        node.classList.remove('state-0','state-1','state-2'); node.classList.add(`state-${st}`);
-        node.classList.toggle('obtained', st === 1);
-      });
-      container.addEventListener('click', ev => {
-        const node = ev.target.closest('.node'); if (!node) return;
-        const cur = parseInt(node.dataset.state) || 0; const next = cur === 1 ? 0 : 1;
-        node.dataset.state = next;
-        node.classList.remove('state-0','state-1','state-2'); node.classList.add(`state-${next}`);
-        node.classList.toggle('obtained', next === 1);
-        const savedNow = loadSavedStates(); savedNow[node.id] = next; saveStates(savedNow);
-      });
-      container.addEventListener('dragstart', ev => { if (ev.target.tagName === 'IMG') ev.preventDefault(); });
-    }
+function applyStateAndEvents(container, saved) {
+  const nodes = container.querySelectorAll('.node');
+  nodes.forEach(node => {
+    const id = node.id;
+    const st = saved[id] || 0;
+    node.dataset.state = st;
+    node.classList.remove('state-0','state-1','state-2');
+    node.classList.add(`state-${st}`);
+    node.classList.toggle('obtained', st === 1);
+  });
+
+  container.addEventListener('click', ev => {
+    // 👇 Skip toggle if context menu is open or just opened (mobile long-press or right-click)
+    if (window.__igp_menu_open && window.__igp_menu_open()) return;
+    if (window.__igp_suppress_click && window.__igp_suppress_click()) return;
+
+    const node = ev.target.closest('.node');
+    if (!node) return;
+
+    const cur = parseInt(node.dataset.state) || 0;
+    const next = cur === 1 ? 0 : 1;
+
+    node.dataset.state = next;
+    node.classList.remove('state-0','state-1','state-2');
+    node.classList.add(`state-${next}`);
+    node.classList.toggle('obtained', next === 1);
+
+    const savedNow = loadSavedStates();
+    savedNow[node.id] = next;
+    saveStates(savedNow);
+  });
+
+  container.addEventListener('dragstart', ev => {
+    if (ev.target.tagName === 'IMG') ev.preventDefault();
+  });
+}
+
 
     /* ------------------ Gear (existing layout) ------------------ */
     function normalizeSequence(seqJson) {
