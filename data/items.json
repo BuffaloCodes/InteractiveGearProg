@@ -4,6 +4,16 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "Explorer's ring 2": {
+        "itemID": "1725",
+        "imgSrc": "images/Explorer's_ring_2.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Explorer's_ring_2"
+    },
+    "Camelot Teleport": {
+        "itemID": "1725",
+        "imgSrc": "images/Camelot_Teleport.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Camelot_Teleport"
+    },
     "High Level Alchemy": {
         "itemID": "1725",
         "imgSrc": "images/High_Level_Alchemy.webp",
