@@ -1,27 +1,20 @@
 // scripts/right-clicks.js
 (function () {
-  // ---- config ----
-  const LONG_PRESS_MS = 500;   // hold time to open menu on touch
-  const MOVE_TOLERANCE = 10;   // finger drift tolerance in px
+  const LONG_PRESS_MS = 500;
+  const MOVE_TOLERANCE = 10;
 
-  // ---- state ----
   let pressTimer = null;
   let startX = 0, startY = 0;
   let menuOpen = false;
   let suppressNextClick = false;
 
-  // expose helpers so index.html can skip a toggle after menu open
+  // expose flags for click-to-toggle guard
   window.__igp_menu_open = () => menuOpen;
   window.__igp_suppress_click = () => suppressNextClick;
 
-  // ---- small utils ----
   function $(id) { return document.getElementById(id); }
-  function ensureBody(cb) {
-    if (document.body) cb();
-    else document.addEventListener('DOMContentLoaded', cb, { once: true });
-  }
+  function ensureBody(cb){ if(document.body) cb(); else document.addEventListener('DOMContentLoaded', cb, { once:true }); }
 
-  // Build (once) a minimal context menu
   function ensureMenu() {
     let m = $('igp-context');
     if (m) return m;
@@ -73,8 +66,8 @@
       borderRadius: '8px',
       cursor: 'pointer'
     });
-    wiki.addEventListener('mouseover', () => (wiki.style.background = 'rgba(255,255,255,.08)'));
-    wiki.addEventListener('mouseout', () => (wiki.style.background = 'transparent'));
+    wiki.addEventListener('mouseover', () => wiki.style.background = 'rgba(255,255,255,.08)');
+    wiki.addEventListener('mouseout',  () => wiki.style.background = 'transparent');
     m.appendChild(wiki);
 
     document.body.appendChild(m);
@@ -107,13 +100,11 @@
     wikiEl.style.opacity = hasWiki ? '1' : '.55';
 
     menu.style.display = 'block';
-    // position next frame after layout
     menu.style.left = '0px';
     menu.style.top = '0px';
     requestAnimationFrame(() => placeMenu(menu, clientX + 2, clientY + 2));
 
     menuOpen = true;
-    // prevent the tap/click that triggered the menu from toggling obtained
     suppressNextClick = true;
     setTimeout(() => (suppressNextClick = false), 400);
   }
@@ -124,7 +115,7 @@
     menuOpen = false;
   }
 
-  // ------------- Desktop: context menu -------------
+  // ---------- Desktop right-click ----------
   document.addEventListener('contextmenu', (ev) => {
     const node = ev.target.closest('.node');
     const inCharts = node && node.closest('#chart_gear, #chart_milestones, #chart-container');
@@ -133,12 +124,16 @@
     ensureBody(() => openMenuAt(node, ev.clientX, ev.clientY));
   });
 
-  // ------------- Mobile: long-press -------------
+  // ---------- Mobile long-press ----------
   function startPress(e) {
     const touch = (e.touches && e.touches[0]) || e;
     const node = e.target.closest && e.target.closest('.node');
     const inCharts = node && node.closest && node.closest('#chart_gear, #chart_milestones, #chart-container');
     if (!node || !inCharts) return;
+
+    // Important: prevent native image callout / save image sheet
+    // (requires listeners to be non-passive)
+    e.preventDefault();
 
     startX = touch.clientX;
     startY = touch.clientY;
@@ -166,32 +161,29 @@
 
   const supportsPointer = 'onpointerdown' in window;
   if (supportsPointer) {
-    document.addEventListener('pointerdown',  startPress,  { passive: true });
-    document.addEventListener('pointermove',  movePress,   { passive: true });
-    document.addEventListener('pointerup',    cancelPress, { passive: true });
-    document.addEventListener('pointercancel', cancelPress, { passive: true });
+    // not passive so we can call preventDefault() on press
+    document.addEventListener('pointerdown',  startPress,   { passive: false });
+    document.addEventListener('pointermove',  movePress,    { passive: false });
+    document.addEventListener('pointerup',    cancelPress,  { passive: false });
+    document.addEventListener('pointercancel', cancelPress, { passive: false });
   } else {
-    document.addEventListener('touchstart',  startPress,  { passive: true });
-    document.addEventListener('touchmove',   movePress,   { passive: true });
-    document.addEventListener('touchend',    cancelPress, { passive: true });
-    document.addEventListener('touchcancel', cancelPress, { passive: true });
+    document.addEventListener('touchstart',  startPress,   { passive: false });
+    document.addEventListener('touchmove',   movePress,    { passive: false });
+    document.addEventListener('touchend',    cancelPress,  { passive: false });
+    document.addEventListener('touchcancel', cancelPress,  { passive: false });
   }
 
-  // ------------- Close menu on outside interactions -------------
+  // ---------- Close menu on outside interactions ----------
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#igp-context')) closeMenu();
-  }, { passive: true });
-
+  });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'Tab') closeMenu();
   });
-
   addEventListener('blur', closeMenu);
   addEventListener('resize', closeMenu);
   addEventListener('scroll', closeMenu, true);
 
-  // Ensure the menu exists once the DOM is ready (safe if body wasn’t ready yet)
   document.addEventListener('DOMContentLoaded', () => { ensureMenu(); }, { once: true });
 })();
-
 
