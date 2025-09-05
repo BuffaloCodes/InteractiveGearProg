@@ -4,6 +4,11 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "Quetzal Transport": {
+        "itemID": "1725",
+        "imgSrc": "images/280px-Renu.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Quetzal_Transport_System"
+    },
     "Ectophial": {
         "itemID": "1725",
         "imgSrc": "images/Ectophial.webp",
