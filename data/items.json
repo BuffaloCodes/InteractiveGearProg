@@ -4,6 +4,11 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "Elemental shield": {
+        "itemID": "1725",
+        "imgSrc": "images/Elemental_shield.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Elemental_shield"
+    },
     "Dorgeshuun crossbow": {
         "itemID": "1725",
         "imgSrc": "images/Dorgeshuun_crossbow.webp",
