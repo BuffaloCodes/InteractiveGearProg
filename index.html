@@ -87,6 +87,10 @@
   line-height: 0 !important;
 }
 #chart_milestones .node { width: 48px !important; height: 48px !important; padding: 2px !important; }
+/* Improve long-press reliability on Milestones */
+#chart_milestones, #chart_milestones .goal-grid, #chart_milestones .node {
+  touch-action: manipulation; /* reduces accidental scroll/zoom interference */
+}
 
   </style>
 </head>
