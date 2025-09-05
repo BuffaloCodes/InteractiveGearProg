@@ -4,6 +4,11 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "Farming Guild": {
+        "itemID": "1725",
+        "imgSrc": "images/Seed_pack.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Farming_Guild"
+    },
     "Trollheim teleport": {
         "itemID": "1725",
         "imgSrc": "images/Trollheim_Teleport.webp",
