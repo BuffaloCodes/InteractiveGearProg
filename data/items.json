@@ -4,6 +4,11 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "High Level Alchemy": {
+        "itemID": "1725",
+        "imgSrc": "images/High_Level_Alchemy.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/High_Level_Alchemy"
+    },
     "Elemental shield": {
         "itemID": "1725",
         "imgSrc": "images/Elemental_shield.webp",
