@@ -35,7 +35,45 @@
     },
     {
       "name": "Medium Goals",
-      "items": ["Dragon scimitar", "Barrows gloves"]
+      "items": [
+        "Farmer's Outfit",
+        "Prospector Kit",
+        "Lumberjack Outfit",
+
+        "Dragon Scimitar",
+        "Dragon Battleaxe",
+        "Salve Amulet (ei)",
+        "Fighter Torso",
+        "Black Mask (i)",
+        "Rune Crossbow",
+        "Proselyte Armor",
+        "Magic Shortbow (i)",
+        "Dragon Defender",
+        "Helm of Neitiznot",
+        "Void Knight Equipment",
+        "Barrows Gloves",
+        "Ava's Accumulator",
+
+        "Ancient Magicks",
+        "Piety",
+
+        "Amulet of Glory",
+
+        "Medium Diary",
+
+        "Prayer Potions",
+        "Medium STASH",
+        "Ectoplasmator",
+        "Holy Wrench",
+        "Bone Crusher",
+
+        "Crystal Saw",
+        "Herb Sack",
+        "Fish Barrel",
+        "Construction",
+        "Karambwan Fishing"
+  ]
+
     },
     {
       "name": "Hard Goals",
