@@ -4,6 +4,106 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "Farmer's outfit": {
+        "itemID": "13646",
+        "imgSrc": "images/Farmer's_jacket.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Farmer%27s_outfit"
+    },
+    "Prospector kit": {
+        "itemID": "12013",
+        "imgSrc": "images/Prospector_helmet.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Prospector_kit"
+    },
+    "Lumberjack outfit": {
+        "itemID": "10941",
+        "imgSrc": "images/Lumberjack_top.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Lumberjack_outfit"
+    },
+    "Dragon battleaxe": {
+        "itemID": "1377",
+        "imgSrc": "images/Dragon_battleaxe.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Dragon_battleaxe"
+    },
+    "Salve amulet (ei)": {
+        "itemID": "12018",
+        "imgSrc": "images/Salve_amulet(ei).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Salve_amulet_(ei)"
+    },
+    "Rune crossbow": {
+        "itemID": "9185",
+        "imgSrc": "images/Rune_crossbow.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Rune_crossbow"
+    },
+    "Proselyte armour": {
+        "itemID": "9674",
+        "imgSrc": "images/Proselyte_sallet.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Proselyte_armour"
+    },
+    "Magic shortbow (i)": {
+        "itemID": "12788",
+        "imgSrc": "images/Magic_shortbow_(i).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Magic_shortbow_(i)"
+    },
+    "Void Knight Equipment": {
+        "itemID": "11665",
+        "imgSrc": "images/Void_knight_top.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Void_Knight_equipment"
+    },
+    "Ancient Magicks": {
+        "itemID": "skip",
+        "imgSrc": "images/Ancient_staff.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Ancient_Magicks"
+    },
+    "Medium diaries": {
+        "itemID": "skip",
+        "imgSrc": "images/Kandarin_headgear_2.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Achievement_Diaries"
+    },
+    "Prayer potions": {
+        "itemID": "2434",
+        "imgSrc": "images/Prayer_potion(4).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Prayer_potion"
+    },
+    "Medium STASH Units": {
+        "itemID": "skip",
+        "imgSrc": "images/150px-STASH_unit_(bush).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/STASH"
+    },
+    "Ectoplasmator": {
+        "itemID": "19391",
+        "imgSrc": "images/Ectoplasmator.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Ectoplasmator"
+    },
+    "Holy wrench": {
+        "itemID": "6714",
+        "imgSrc": "images/Holy_wrench.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Holy_wrench"
+    },
+    "Bone crusher": {
+        "itemID": "13116",
+        "imgSrc": "images/Bonecrusher.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Bonecrusher"
+    },
+    "Crystal saw": {
+        "itemID": "9625",
+        "imgSrc": "images/Crystal_saw.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Crystal_saw"
+    },
+    "Fish barrel": {
+        "itemID": "25590",
+        "imgSrc": "images/Fish_barrel.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Fish_barrel"
+    },
+    "POH Portals": {
+        "itemID": "skip",
+        "imgSrc": "images/Portal_Chamber_icon.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Construction"
+    },
+    "Karambwan fishing": {
+        "itemID": "skip",
+        "imgSrc": "images/Karambwan_vessel_(baited).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Karambwan"
+    },
     "Kharedst's memoirs": {
         "itemID": "1725",
         "imgSrc": "images/Kharedst's_memoirs.webp",
