@@ -4,6 +4,31 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "Kharedst's memoirs": {
+        "itemID": "1725",
+        "imgSrc": "images/Kharedst's_memoirs.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Kharedst's_memoirs"
+    },
+    "Log Basket": {
+        "itemID": "1725",
+        "imgSrc": "images/Log_basket.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Log_basket"
+    },
+    "Earth Battlestaff": {
+        "itemID": "1725",
+        "imgSrc": "images/Earth_battlestaff.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Earth_battlestaff"
+    },
+    "Celestial Ring": {
+        "itemID": "1725",
+        "imgSrc": "images/Celestial_ring_(uncharged).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Celestial_ring_(uncharged)"
+    },
+    "Bones to Peaches": {
+        "itemID": "1725",
+        "imgSrc": "images/Bones_to_Peaches.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Bones_to_Peaches"
+    },
     "Farming Guild": {
         "itemID": "1725",
         "imgSrc": "images/Seed_pack.webp",
