@@ -101,6 +101,80 @@
 #chart_milestones, #chart_milestones .goal-grid, #chart_milestones .node {
   touch-action: manipulation;    /* reduce scroll/zoom interference */
 }
+/* =========================
+   THEME CONTROL (edit me)
+   -------------------------
+   Change hex codes below to re-skin the site.
+   Each var notes WHAT it is and WHERE it shows.
+   ========================= */
+
+:root {
+  /* Page & text */
+  --page-bg:          #28221d;  /* Whole page background */
+  --text-color:       #d9d9d9;  /* Default text color */
+
+  /* Top bar (tabs bar) */
+  --topbar-bg:        #312a25;  /* Sticky bar behind the two tabs */
+  --topbar-border:    rgba(255,255,255,.08);
+
+  /* Tabs (buttons at top) */
+  --tab-text:         #e6e7eb;
+  --tab-border:       #444444;
+  --tab-bg:           transparent;
+  --tab-bg-hover:     rgba(255,255,255,.05);
+  --tab-bg-active:    rgba(255,255,255,.12);
+  --tab-border-active:#555555;
+
+  /* Content wrappers / panels */
+  --panel-bg:         #28221d;  /* Milestones panel background */
+  --section-bg:       #312a25;  /* Each milestone rectangle */
+  --section-border:   #6c665f;
+
+  /* Item tiles (both tabs) */
+  --tile-bg:          #2b2f36;
+  --tile-border:      rgba(255,255,255,.08);
+  --tile-hover-border:#ffffff2e;
+  --tile-shadow:      0 1px 2px rgba(0,0,0,.25);
+
+  /* Obtained tiles */
+  --obtained-bg:      #2f8f46;
+  --obtained-border:  rgba(0,0,0,.15);
+  --obtained-inset:   inset 0 0 0 1px rgba(255,255,255,.12);
+
+  /* Alerts / errors */
+  --error-bg:         rgba(220,53,69,.15);
+  --error-border:     rgba(220,53,69,.35);
+}
+
+/* Apply tokens */
+html, body { background: var(--page-bg); color: var(--text-color); }
+.topbar { background: var(--topbar-bg); border-bottom: 1px solid var(--topbar-border); }
+
+.tab_btn {
+  color: var(--tab-text);
+  border: 1px solid var(--tab-border);
+  background: var(--tab-bg);
+}
+.tab_btn:hover { background: var(--tab-bg-hover); }
+.tab_btn.active { background: var(--tab-bg-active); border-color: var(--tab-border-active); }
+
+#panel_milestones { background: var(--panel-bg); }
+.goal-section { background: var(--section-bg); border: 1px solid var(--section-border); }
+
+#chart_gear .node, #chart_milestones .node {
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  box-shadow: var(--tile-shadow);
+}
+#chart_gear .node:hover, #chart_milestones .node:hover { border-color: var(--tile-hover-border); }
+
+#chart_gear .node.obtained, #chart_milestones .node.obtained {
+  background: var(--obtained-bg);
+  border-color: var(--obtained-border);
+  box-shadow: var(--obtained-inset), 0 1px 2px rgba(0,0,0,.3);
+}
+
+.error { background: var(--error-bg); border-color: var(--error-border); }
 
   </style>
 </head>
