@@ -46,10 +46,10 @@
         "Fighter torso",
         "Black mask (i)",
         "Rune crossbow",
-        "Proselyte armor",
+        "Proselyte armour",
         "Magic shortbow (i)",
         "Dragon defender",
-        "Helm of Neitiznot",
+        "Helm of neitiznot",
         "Void Knight Equipment",
         "Barrows gloves",
         "Ava's accumulator",
@@ -57,21 +57,19 @@
         "Ancient Magicks",
         "Piety",
 
-        "Amulet of Glory",
+        "Medium diaries",
 
-        "Medium Diary",
-
-        "Prayer Potions",
-        "Medium STASH",
+        "Prayer potions",
+        "Medium STASH Units",
         "Ectoplasmator",
-        "Holy Wrench",
-        "Bone Crusher",
+        "Holy wrench",
+        "Bonecrusher",
 
         "Crystal saw",
         "Herb sack",
         "Fish barrel",
-        "Construction",
-        "Karambwan Fishing"
+        "POH Portals",
+        "Karambwan fishing"
   ]
 
     },
