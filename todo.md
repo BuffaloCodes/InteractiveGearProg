@@ -1,5 +1,9 @@
 # TO-DO list
 
-## 98 agi explanation page
-- finish prayer pot section
-- link to page from main page.
+## Unassigned
+- Earth Battlestaves
+- Bones to Peaches
+- Celestial Ring
+- Digsite Pendant
+- Kourend Teleport Book
+- Log Basket
