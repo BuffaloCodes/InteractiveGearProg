@@ -70,20 +70,66 @@
         "Fish barrel",
         "POH Portals",
         "Karambwan fishing"
-  ]
-
+      ]
     },
     {
       "name": "Hard Goals",
-      "items": ["Slayer helmet (i)"]
+      "items": [
+        "Slayer helmet (i)",
+
+        "Slayer Helm (i)",
+        "Elite Void Knight Equipment",
+        "Dragon boots",
+        "Abyssal whip",
+        "Imbued God Cape",
+        "Teleport to House (Tablet)",
+        "Lunar spellbook",
+        "Ranger boots",
+        "Rune pouch",
+        "Blessed D'Hide Armour",
+        "Fire cape",
+        "Super Potions",
+        "Crystal shield",
+        "Infinity boots",
+        "Hard Diary",
+        "Barrows",
+        "Zombie axe",
+        "Amulet of fury",
+        "God Books Completed",
+        "Dagannoth Imbued Rings",
+        "Trident of the seas",
+        "Combat",
+        "Quest point cape",
+        "Ava's assembler",
+        "Gauntlet",
+        "Dragon sword"
+      ]
     },
     {
       "name": "Elite Goals",
-      "items": ["Construction 84"]
+      "items": [
+        "Construction",
+        "Toxic blowpipe",
+        "Trident of the swamps",
+        "Kree'arra",
+        "General Graardor",
+        "K'ril Tsutsaroth",
+        "Dragon warhammer",
+        "Full Crystal Armour",
+        "Bow of Faerdhinen (c)",
+        "Abyssal tentacle",
+        "Occult necklace",
+        "Dragon crossbow",
+        "Chambers of Xeric",
+        "Elite Diary"
+      ]
     },
     {
       "name": "Master Goals",
-      "items": ["Twisted bow"]
+      "items": [
+        "Contruction",
+        "Achievement diary cape"
+      ]
     }
   ]
 }
