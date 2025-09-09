@@ -66,116 +66,136 @@
     #panel_milestones { background:#22262c; border-radius:12px; padding:12px; }
     #chart_milestones.goal-stack { display:block; gap:0; width:100%; }
     .goal-section { background:#232a2f; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; margin:12px 0; }
-    .goal-section h3 { margin:0 0 10px 0; font-size:1.05rem; font-weight:700; letter-spacing:.2px; opacity:.95; }
     .goal-grid { display:flex; flex-wrap:wrap; gap:12px; }
-    /* Fix: keep milestone icons inside their tiles */
-#chart_milestones .node {
-  width: 48px !important;
-  height: 48px !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;   /* <- stops bleed */
-}
 
-#chart_milestones .node img {
-  width: 100% !important;        /* fill the 48×48 box */
-  height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  object-fit: contain !important; /* keep aspect ratio */
-  display: block !important;
-  line-height: 0 !important;
-}
-#chart_milestones .node { width: 48px !important; height: 48px !important; padding: 2px !important; }
-/* Improve long-press reliability on Milestones */
-#chart_milestones, #chart_milestones .goal-grid, #chart_milestones .node {
-  touch-action: manipulation; /* reduces accidental scroll/zoom interference */
-}
-/* Improve long-press menu reliability and block native image callout */
-#chart_gear .node, #chart_milestones .node,
-#chart_gear .node img, #chart_milestones .node img {
-  -webkit-touch-callout: none;   /* iOS: disable Save Image sheet */
-  user-select: none;
-}
+    /* Keep milestone icons inside their tiles */
+    #chart_milestones .node { width: 48px !important; height: 48px !important; padding: 2px !important; box-sizing: border-box !important; overflow: hidden !important; }
+    #chart_milestones .node img { width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; display: block !important; line-height: 0 !important; }
 
-#chart_milestones, #chart_milestones .goal-grid, #chart_milestones .node {
-  touch-action: manipulation;    /* reduce scroll/zoom interference */
-}
-/* =========================
-   THEME CONTROL (edit me)
-   -------------------------
-   Change hex codes below to re-skin the site.
-   Each var notes WHAT it is and WHERE it shows.
-   ========================= */
+    /* Touch/long-press polish */
+    #chart_milestones, #chart_milestones .goal-grid, #chart_milestones .node { touch-action: manipulation; }
+    #chart_gear .node, #chart_milestones .node,
+    #chart_gear .node img, #chart_milestones .node img { -webkit-touch-callout: none; user-select: none; }
 
-:root {
-  /* Page & text */
-  --page-bg:          #28221d;  /* Whole page background */
-  --text-color:       #d9d9d9;  /* Default text color */
+    /* =========================
+       THEME CONTROL (edit me)
+       ========================= */
+    :root {
+      /* Page & text */
+      --page-bg:          #28221d;  /* Whole page background */
+      --text-color:       #d9d9d9;  /* Default text color */
 
-  /* Top bar (tabs bar) */
-  --topbar-bg:        #312a25;  /* Sticky bar behind the two tabs */
-  --topbar-border:    rgba(255,255,255,.08);
+      /* Top bar (tabs bar) */
+      --topbar-bg:        #312a25;  /* Sticky bar behind the two tabs */
+      --topbar-border:    rgba(255,255,255,.08);
 
-  /* Tabs (buttons at top) */
-  --tab-text:         #e6e7eb;
-  --tab-border:       #444444;
-  --tab-bg:           transparent;
-  --tab-bg-hover:     rgba(255,255,255,.05);
-  --tab-bg-active:    rgba(255,255,255,.12);
-  --tab-border-active:#555555;
+      /* Tabs (buttons at top) */
+      --tab-text:         #e6e7eb;
+      --tab-border:       #444444;
+      --tab-bg:           transparent;
+      --tab-bg-hover:     rgba(255,255,255,.05);
+      --tab-bg-active:    rgba(255,255,255,.12);
+      --tab-border-active:#555555;
 
-  /* Content wrappers / panels */
-  --panel-bg:         #28221d;  /* Milestones panel background */
-  --section-bg:       #312a25;  /* Each milestone rectangle */
-  --section-border:   #6c665f;
+      /* Content wrappers / panels */
+      --panel-bg:         #28221d;  /* Milestones panel background */
+      --section-bg:       #312a25;  /* Each milestone rectangle */
+      --section-border:   #6c665f;
 
-  /* Item tiles (both tabs) */
-  --tile-bg:          #2b2f36;
-  --tile-border:      rgba(255,255,255,.08);
-  --tile-hover-border:#ffffff2e;
-  --tile-shadow:      0 1px 2px rgba(0,0,0,.25);
+      /* Item tiles (both tabs) */
+      --tile-bg:          #2b2f36;
+      --tile-border:      rgba(255,255,255,.08);
+      --tile-hover-border:#ffffff2e;
+      --tile-shadow:      0 1px 2px rgba(0,0,0,.25);
 
-  /* Obtained tiles */
-  --obtained-bg:      #2f8f46;
-  --obtained-border:  rgba(0,0,0,.15);
-  --obtained-inset:   inset 0 0 0 1px rgba(255,255,255,.12);
+      /* Obtained tiles */
+      --obtained-bg:      #2f8f46;
+      --obtained-border:  rgba(0,0,0,.15);
+      --obtained-inset:   inset 0 0 0 1px rgba(255,255,255,.12);
 
-  /* Alerts / errors */
-  --error-bg:         rgba(220,53,69,.15);
-  --error-border:     rgba(220,53,69,.35);
-}
+      /* Alerts / errors */
+      --error-bg:         rgba(220,53,69,.15);
+      --error-border:     rgba(220,53,69,.35);
+    }
 
-/* Apply tokens */
-html, body { background: var(--page-bg); color: var(--text-color); }
-.topbar { background: var(--topbar-bg); border-bottom: 1px solid var(--topbar-border); }
+    /* Apply tokens */
+    html, body { background: var(--page-bg); color: var(--text-color); }
+    .topbar { background: var(--topbar-bg); border-bottom: 1px solid var(--topbar-border); }
 
-.tab_btn {
-  color: var(--tab-text);
-  border: 1px solid var(--tab-border);
-  background: var(--tab-bg);
-}
-.tab_btn:hover { background: var(--tab-bg-hover); }
-.tab_btn.active { background: var(--tab-bg-active); border-color: var(--tab-border-active); }
+    .tab_btn {
+      color: var(--tab-text);
+      border: 1px solid var(--tab-border);
+      background: var(--tab-bg);
+    }
+    .tab_btn:hover { background: var(--tab-bg-hover); }
+    .tab_btn.active { background: var(--tab-bg-active); border-color: var(--tab-border-active); }
 
-#panel_milestones { background: var(--panel-bg); }
-.goal-section { background: var(--section-bg); border: 1px solid var(--section-border); }
+    #panel_milestones { background: var(--panel-bg); }
+    .goal-section { background: var(--section-bg); border: 1px solid var(--section-border); }
 
-#chart_gear .node, #chart_milestones .node {
-  background: var(--tile-bg);
-  border: 1px solid var(--tile-border);
-  box-shadow: var(--tile-shadow);
-}
-#chart_gear .node:hover, #chart_milestones .node:hover { border-color: var(--tile-hover-border); }
+    #chart_gear .node, #chart_milestones .node {
+      background: var(--tile-bg);
+      border: 1px solid var(--tile-border);
+      box-shadow: var(--tile-shadow);
+    }
+    #chart_gear .node:hover, #chart_milestones .node:hover { border-color: var(--tile-hover-border); }
+    #chart_gear .node.obtained, #chart_milestones .node.obtained {
+      background: var(--obtained-bg);
+      border-color: var(--obtained-border);
+      box-shadow: var(--obtained-inset), 0 1px 2px rgba(0,0,0,.3);
+    }
+    .error { background: var(--error-bg); border-color: var(--error-border); }
 
-#chart_gear .node.obtained, #chart_milestones .node.obtained {
-  background: var(--obtained-bg);
-  border-color: var(--obtained-border);
-  box-shadow: var(--obtained-inset), 0 1px 2px rgba(0,0,0,.3);
-}
+    /* ===== Milestone section header + progress ===== */
+    .goal-section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 10px 0;
+    }
+    .goal-section-title {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: .2px;
+      opacity: .95;
+      flex: 0 0 auto;
+    }
+    .goal-progress {
+      --pg-height: 10px;
+      --pg-bg: rgba(255,255,255,.08);
+      --pg-fill: var(--obtained-bg);
+      --pg-text: var(--text-color);
 
-.error { background: var(--error-bg); border-color: var(--error-border); }
-
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 1 auto;
+    }
+    .goal-progress-track {
+      position: relative;
+      height: var(--pg-height);
+      width: 100%;
+      background: var(--pg-bg);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .goal-progress-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0%;
+      background: var(--pg-fill);
+      border-radius: 999px;
+      transition: width .18s ease;
+    }
+    .goal-progress-label {
+      font-size: .9rem;
+      opacity: .9;
+      white-space: nowrap;
+      min-width: 4.5ch;
+      text-align: right;
+    }
   </style>
 </head>
 <body>
@@ -276,43 +296,43 @@ html, body { background: var(--page-bg); color: var(--text-color); }
     /* ------------------ state handling ------------------ */
     function loadSavedStates() { try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch(e) { return {}; } }
     function saveStates(map) { try { localStorage.setItem(SAVE_KEY, JSON.stringify(map)); } catch(e) {} }
-function applyStateAndEvents(container, saved) {
-  const nodes = container.querySelectorAll('.node');
-  nodes.forEach(node => {
-    const id = node.id;
-    const st = saved[id] || 0;
-    node.dataset.state = st;
-    node.classList.remove('state-0','state-1','state-2');
-    node.classList.add(`state-${st}`);
-    node.classList.toggle('obtained', st === 1);
-  });
+    function applyStateAndEvents(container, saved) {
+      const nodes = container.querySelectorAll('.node');
+      nodes.forEach(node => {
+        const id = node.id; const st = saved[id] || 0;
+        node.dataset.state = st;
+        node.classList.remove('state-0','state-1','state-2'); node.classList.add(`state-${st}`);
+        node.classList.toggle('obtained', st === 1);
+      });
 
-  container.addEventListener('click', ev => {
-    // 👇 Skip toggle if context menu is open or just opened (mobile long-press or right-click)
-    if (window.__igp_menu_open && window.__igp_menu_open()) return;
-    if (window.__igp_suppress_click && window.__igp_suppress_click()) return;
+      container.addEventListener('click', ev => {
+        // Skip toggle if context menu is open or just opened
+        if (window.__igp_menu_open && window.__igp_menu_open()) return;
+        if (window.__igp_suppress_click && window.__igp_suppress_click()) return;
 
-    const node = ev.target.closest('.node');
-    if (!node) return;
+        const node = ev.target.closest('.node');
+        if (!node) return;
 
-    const cur = parseInt(node.dataset.state) || 0;
-    const next = cur === 1 ? 0 : 1;
+        const cur = parseInt(node.dataset.state) || 0;
+        const next = cur === 1 ? 0 : 1;
 
-    node.dataset.state = next;
-    node.classList.remove('state-0','state-1','state-2');
-    node.classList.add(`state-${next}`);
-    node.classList.toggle('obtained', next === 1);
+        node.dataset.state = next;
+        node.classList.remove('state-0','state-1','state-2'); node.classList.add(`state-${next}`);
+        node.classList.toggle('obtained', next === 1);
 
-    const savedNow = loadSavedStates();
-    savedNow[node.id] = next;
-    saveStates(savedNow);
-  });
+        const savedNow = loadSavedStates();
+        savedNow[node.id] = next;
+        saveStates(savedNow);
 
-  container.addEventListener('dragstart', ev => {
-    if (ev.target.tagName === 'IMG') ev.preventDefault();
-  });
-}
+        // update progress if this click happened inside a milestones section
+        const section = node.closest('.goal-section');
+        if (section) updateSectionProgress(section);
+      });
 
+      container.addEventListener('dragstart', ev => {
+        if (ev.target.tagName === 'IMG') ev.preventDefault();
+      });
+    }
 
     /* ------------------ Gear (existing layout) ------------------ */
     function normalizeSequence(seqJson) {
@@ -363,7 +383,30 @@ function applyStateAndEvents(container, saved) {
     }
     function buildHeader(text) { const h=document.createElement('h2'); h.textContent=text; h.className='milestone-header'; return h; }
 
-    /* ------------------ Milestones: stacked sections ------------------ */
+    /* ------------------ Milestones: progress helpers ------------------ */
+    function computeSectionProgress(sectionEl) {
+      const nodes = sectionEl.querySelectorAll('.goal-grid .node');
+      const total = nodes.length;
+      if (total === 0) return { obtained: 0, total: 0, pct: 0 };
+      let obtained = 0;
+      nodes.forEach(n => {
+        const st = parseInt(n.dataset.state) || 0;
+        if (st === 1 || n.classList.contains('obtained')) obtained++;
+      });
+      const pct = Math.round((obtained / total) * 100);
+      return { obtained, total, pct };
+    }
+    function updateSectionProgress(sectionEl) {
+      const { obtained, total, pct } = computeSectionProgress(sectionEl);
+      const fill = sectionEl.querySelector('.goal-progress-fill');
+      const label = sectionEl.querySelector('.goal-progress-label');
+      if (fill) fill.style.width = `${pct}%`;
+      if (label) label.textContent = `${pct}%`;
+      const track = sectionEl.querySelector('.goal-progress-track');
+      if (track) track.title = `${obtained} / ${total} obtained`;
+    }
+
+    /* ------------------ Milestones: stacked sections w/ progress ------------------ */
     function extractMilestoneGroups(seqJson) {
       // Accept either {groups:[{name,items}...]} or {"Easy Goals":[...], "Medium Goals":[...], ...}
       if (seqJson && Array.isArray(seqJson.groups)) return seqJson.groups;
@@ -418,20 +461,46 @@ function applyStateAndEvents(container, saved) {
 
         groups.forEach(g => {
           const section = document.createElement('div'); section.className='goal-section';
-          const title = document.createElement('h3'); title.textContent = g.name || 'Goals'; section.appendChild(title);
+
+          /* header with title + progress bar */
+          const header = document.createElement('div'); header.className = 'goal-section-header';
+
+          const title = document.createElement('h3');
+          title.className = 'goal-section-title';
+          title.textContent = g.name || 'Goals';
+
+          const progress = document.createElement('div'); progress.className = 'goal-progress';
+          const track = document.createElement('div'); track.className = 'goal-progress-track';
+          const fill = document.createElement('div'); fill.className = 'goal-progress-fill'; track.appendChild(fill);
+          const label = document.createElement('div'); label.className = 'goal-progress-label'; label.textContent = '0%';
+
+          progress.appendChild(track);
+          progress.appendChild(label);
+
+          header.appendChild(title);
+          header.appendChild(progress);
+          section.appendChild(header);
+
+          /* items grid */
           const grid = document.createElement('div'); grid.className='goal-grid';
 
           const items = Array.isArray(g.items) ? g.items : [];
           items.forEach(entry => { if (Array.isArray(entry)) entry.forEach(sub => renderOne(sub, grid)); else renderOne(entry, grid); });
 
-          section.appendChild(grid); container.appendChild(section);
+          section.appendChild(grid);
+          container.appendChild(section);
         });
 
         if (missingCount > 0) {
           const warn = document.createElement('div'); warn.className='error'; warn.style.cursor='pointer'; warn.title='Click to dismiss';
           warn.textContent = `${missingCount} milestone entries were skipped (no match in data/items.json). Check console for names.`; warn.addEventListener('click', () => warn.remove()); container.prepend(warn);
         }
+
         applyStateAndEvents(container, loadSavedStates());
+
+        // initialize progress bars now that states are applied
+        container.querySelectorAll('.goal-section').forEach(updateSectionProgress);
+
       } catch (err) {
         const msg = document.createElement('div'); msg.className='error'; msg.textContent='Failed to load milestones. Confirm data/items.json and data/sequence_milestones.json.'; container.appendChild(msg);
         console.error(err);
@@ -442,7 +511,7 @@ function applyStateAndEvents(container, saved) {
     document.addEventListener('DOMContentLoaded', async () => {
       // render both once
       await renderChartInto('chart_gear', PATH_ITEMS, PATH_SEQ_GEAR);              // Gear unchanged
-      await renderMilestonesInto('chart_milestones', PATH_ITEMS, PATH_SEQ_MILE);   // Milestones = stacked sections
+      await renderMilestonesInto('chart_milestones', PATH_ITEMS, PATH_SEQ_MILE);   // Milestones = stacked sections w/ progress
 
       // tabs
       document.getElementById('btn_milestones').addEventListener('click', () => setActiveTab('milestones'));
