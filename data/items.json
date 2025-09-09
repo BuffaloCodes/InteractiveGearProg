@@ -4,6 +4,236 @@
         "imgSrc": "images/Amulet_of_strength.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_strength"
     },
+    "Zombie axe": {
+        "itemID": "skip",
+        "imgSrc": "images/Zombie_axe.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Zombie_axe"
+    },
+    "Royal Titans": {
+        "itemID": "skip",
+        "imgSrc": "images/220px-Branda_the_Fire_Queen.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Royal_Titans"
+    },
+    "Moons of Peril": {
+        "itemID": "skip",
+        "imgSrc": "images/140px-Blood_Moon.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Moons_of_peril"
+    },
+    "Dragon Slayer I": {
+        "itemID": "skip",
+        "imgSrc": "images/Rune_platebody.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Dragon_Slayer_I"
+    },
+    "Mage Arena I": {
+        "itemID": "skip",
+        "imgSrc": "images/Zamorak_cape.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Mage_Arena_I"
+    },
+    "Elite Void Knight Equipment": {
+        "itemID": "skip",
+        "imgSrc": "images/Elite_void_top.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Elite_Void_Knight_equipment"
+    },
+    "Dragon Boots": {
+        "itemID": "11840",
+        "imgSrc": "images/Dragon_boots.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Dragon_boots"
+    },
+    "Abyssal Whip": {
+        "itemID": "4151",
+        "imgSrc": "images/Abyssal_whip.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Abyssal_whip"
+    },
+    "Imbued God Cape": {
+        "itemID": "skip",
+        "imgSrc": "images/Imbued_zamorak_cape.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Mage_Arena_II"
+    },
+    "Teleport to House (Tablet)": {
+        "itemID": "8013",
+        "imgSrc": "images/Teleport_to_house_(tablet).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Teleport_to_house_(tablet)"
+    },
+    "Lunar spellbook": {
+        "itemID": "skip",
+        "imgSrc": "images/Moonclan_Teleport_icon_(mobile).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Lunar_spells"
+    },
+    "Ranger boots": {
+        "itemID": "2577",
+        "imgSrc": "images/Ranger_boots.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Ranger_boots"
+    },
+    "Rune Pouch": {
+        "itemID": "12791",
+        "imgSrc": "images/Rune_pouch.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Rune_pouch"
+    },
+    "Blessed D'Hide Armour": {
+        "itemID": "skip",
+        "imgSrc": "images/Zamorak_d'hide_body.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Blessed_dragonhide_armour"
+    },
+    "Fire Cape": {
+        "itemID": "6570",
+        "imgSrc": "images/Fire_cape.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Fire_cape"
+    },
+    "Super Potions": {
+        "itemID": "skip",
+        "imgSrc": "images/Super_strength(4).webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Super_potion"
+    },
+        "Crystal shield": {
+        "itemID": "4224",
+        "imgSrc": "images/Crystal_shield.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Crystal_shield"
+    },
+    "Infinity Boots": {
+        "itemID": "6920",
+        "imgSrc": "images/Infinity_boots.webp",
+        "wikiLink": "https://oldschool.runescape.wiki/w/Infinity_boots"
+},
+"Hard Diaries": {
+  "itemID": "skip",
+  "imgSrc": "images/Kandarin_headgear_4.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Achievement_Diary"
+},
+"Barrows Brothers": {
+  "itemID": "skip",
+  "imgSrc": "images/38px-Dharok_the_Wretched.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Barrows"
+},
+"Zombie Axe": {
+  "itemID": "skip",
+  "imgSrc": "images/Zombie_axe.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Zombie_axe"
+},
+"Amulet of Fury": {
+  "itemID": "6585",
+  "imgSrc": "images/Amulet_of_fury.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Amulet_of_fury"
+},
+"God Books": {
+  "itemID": "skip",
+  "imgSrc": "images/Book_of_darkness.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/God_book"
+},
+"Dagannoth Imbued Rings": {
+  "itemID": "skip",
+  "imgSrc": "images/Berserker_ring_(i).webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Ring#Imbued_rings"
+},
+"Trident of the Seas": {
+  "itemID": "11905",
+  "imgSrc": "images/Trident_of_the_seas.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Trident_of_the_seas"
+},
+"Base 85 Combat": {
+  "itemID": "skip",
+  "imgSrc": "images/Combat.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Combat"
+},
+"Quest Cape": {
+  "itemID": "9813",
+  "imgSrc": "images/Quest_point_cape_(t).webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Quest_point_cape"
+},
+"Ava's Assembler": {
+  "itemID": "22109",
+  "imgSrc": "images/Ava's_assembler.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Ava%27s_assembler"
+},
+"Corrupted Gauntlet": {
+  "itemID": "skip",
+  "imgSrc": "images/280px-Corrupted_Hunllef.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/The_Gauntlet"
+},
+"Dragon Sword": {
+  "itemID": "21009",
+  "imgSrc": "images/Dragon_sword.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Dragon_sword"
+},
+"Construction": {
+  "itemID": "skip",
+  "imgSrc": "images/Construction_icon.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Construction"
+},
+"Toxic Blowpipe": {
+  "itemID": "12926",
+  "imgSrc": "images/Toxic_blowpipe.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Toxic_blowpipe"
+},
+"Trident of the Swamps": {
+  "itemID": "12900",
+  "imgSrc": "images/Trident_of_the_swamp.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Trident_of_the_swamp"
+},
+"Kree'arra": {
+  "itemID": "skip",
+  "imgSrc": "images/Kree'arra.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Kree%27arra"
+},
+"General Graardor": {
+  "itemID": "skip",
+  "imgSrc": "images/General_Graardor.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/General_Graardor"
+},
+"K'ril Tsutsaroth": {
+  "itemID": "skip",
+  "imgSrc": "images/K'ril_Tsutsaroth.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/K%27ril_Tsutsaroth"
+},
+"Dragon Warhammer": {
+  "itemID": "13576",
+  "imgSrc": "images/Dragon_warhammer.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Dragon_warhammer"
+},
+"Full Crystal Armour": {
+  "itemID": "skip",
+  "imgSrc": "images/Crystal_armour.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Crystal_armour"
+},
+"Bow of Faerdhinen (c)": {
+  "itemID": "25867",
+  "imgSrc": "images/Bow_of_faerdhinen_(c).webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Bow_of_faerdhinen_(c)"
+},
+"Abyssal Tentacle": {
+  "itemID": "12006",
+  "imgSrc": "images/Abyssal_tentacle.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Abyssal_tentacle"
+},
+"Occult Necklace": {
+  "itemID": "12002",
+  "imgSrc": "images/Occult_necklace.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Occult_necklace"
+},
+"Dragon Crossbow": {
+  "itemID": "21902",
+  "imgSrc": "images/Dragon_crossbow.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Dragon_crossbow"
+},
+"Chambers of Xeric": {
+  "itemID": "skip",
+  "imgSrc": "images/Chambers_of_Xeric.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Chambers_of_Xeric"
+},
+"Elite Diary": {
+  "itemID": "skip",
+  "imgSrc": "images/Achievement_Diary_icon.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Achievement_Diary"
+},
+"Contruction": {
+  "itemID": "skip",
+  "imgSrc": "images/Construction_icon.webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Construction"
+},
+"Achievement Diary Cape": {
+  "itemID": "13069",
+  "imgSrc": "images/Achievement_diary_cape_(t).webp",
+  "wikiLink": "https://oldschool.runescape.wiki/w/Achievement_diary_cape"
+    },
     "Farmer's outfit": {
         "itemID": "13646",
         "imgSrc": "images/Farmer's_jacket.webp",
@@ -138,11 +368,6 @@
         "itemID": "1725",
         "imgSrc": "images/Trollheim_Teleport.webp",
         "wikiLink": "https://oldschool.runescape.wiki/w/Trollheim_Teleport"
-    },
-    "Quetzal Transport": {
-        "itemID": "1725",
-        "imgSrc": "images/280px-Renu.webp",
-        "wikiLink": "https://oldschool.runescape.wiki/w/Quetzal_Transport_System"
     },
     "Ectophial": {
         "itemID": "1725",
