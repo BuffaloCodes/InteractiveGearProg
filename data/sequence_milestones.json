@@ -14,7 +14,6 @@
         "Iban's staff (u)",
         "Protect from Melee",
         "High Level Alchemy",
-        "Bones to Peaches",
         "Earth Battlestaff",
         "Fairy rings",
         "Ardougne cloak 1",
@@ -29,6 +28,7 @@
         "Farming Guild",
         "Alfred Grimhand's Barcrawl",
         "The Fremmenik Trials",
+        "Dragon Slayer I",
         "Celestial Ring",
         "Log Basket"
       ]
@@ -54,10 +54,12 @@
         "Barrows gloves",
         "Ava's accumulator",
 
+        "Bones to Peaches",
         "Ancient Magicks",
         "Piety",
 
         "Medium diaries",
+        "Mage Arena I",
 
         "Prayer potions",
         "Medium STASH Units",
@@ -76,8 +78,6 @@
       "name": "Hard Goals",
       "items": [
         "Slayer helmet (i)",
-
-        "Slayer Helm (i)",
         "Elite Void Knight Equipment",
         "Dragon boots",
         "Abyssal whip",
@@ -93,6 +93,8 @@
         "Infinity boots",
         "Hard Diary",
         "Barrows",
+        "Moons",
+        "Titans",
         "Zombie axe",
         "Amulet of fury",
         "God Books Completed",
@@ -108,7 +110,7 @@
     {
       "name": "Elite Goals",
       "items": [
-        "Construction",
+        "Construction 83",
         "Toxic blowpipe",
         "Trident of the swamps",
         "Kree'arra",
@@ -127,7 +129,7 @@
     {
       "name": "Master Goals",
       "items": [
-        "Contruction",
+        "Contruction 87",
         "Achievement diary cape"
       ]
     }
