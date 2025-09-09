@@ -91,20 +91,20 @@
         "Super Potions",
         "Crystal shield",
         "Infinity boots",
-        "Hard Diary",
-        "Barrows",
-        "Moons",
-        "Titans",
+        "Hard Diaries",
+        "Barrows Brothers",
+        "Moons of Peril",
+        "Royal Titans",
         "Zombie axe",
-        "Amulet of fury",
-        "God Books Completed",
+        "Amulet of Fury",
+        "God Books",
         "Dagannoth Imbued Rings",
         "Trident of the seas",
-        "Combat",
-        "Quest point cape",
+        "Base 85 Combat",
+        "Quest Cape",
         "Ava's assembler",
-        "Gauntlet",
-        "Dragon sword"
+        "Corrupted Gauntlet",
+        "Dragon Sword"
       ]
     },
     {
@@ -112,7 +112,7 @@
       "items": [
         "Construction 83",
         "Toxic blowpipe",
-        "Trident of the swamps",
+        "Trident of the swamp",
         "Kree'arra",
         "General Graardor",
         "K'ril Tsutsaroth",
@@ -121,7 +121,7 @@
         "Bow of Faerdhinen (c)",
         "Abyssal tentacle",
         "Occult necklace",
-        "Dragon crossbow",
+        "Dragon Crossbow",
         "Chambers of Xeric",
         "Elite Diary"
       ]
@@ -130,7 +130,7 @@
       "name": "Master Goals",
       "items": [
         "Contruction 87",
-        "Achievement diary cape"
+        "Achievement Diary Cape"
       ]
     }
   ]
